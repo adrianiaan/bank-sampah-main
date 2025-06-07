@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default"
     data-assets-path="../../assets/" data-template="horizontal-menu-template">
 
@@ -10,10 +9,8 @@
 
     <title>{{ env('app_name') }}</title>
 
-    <meta name="description" content="" />
-
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('img/laravel.png') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.png') }}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -26,6 +23,8 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/fontawesome.css') }}" />
     <!-- Menu waves for no-customizer fix -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/node-waves/node-waves.css') }}" />
+    <!-- CDN untuk Material Design Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" />
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/rtl/core.css') }}" class="template-customizer-core-css" />
@@ -50,209 +49,110 @@
     {{-- <script src="{{ asset('assets/vendor/js/template-customizer.js') }}"></script> --}}
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('assets/js/config.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ asset('css/landing-page.css') }}" />
 </head>
 
 <body>
-    <!-- Layout wrapper -->
-    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
-        <div class="layout-container">
-            <!-- Navbar -->
-
-            <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
-                <div class="container-xxl">
-                    <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">
-                        <a href="index.html" class="app-brand-link">
-                            <img src="{{ asset('img/laravel.png') }}" alt="Logo" class="app-brand-logo demo"
-                                style="width: 45px; height:45px;">
-                            <span class="app-brand-text demo menu-text fw-bold ms-2">{{ env('app_name') }}</span>
-                        </a>
-
-                        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
-                            <i class="mdi mdi-close align-middle"></i>
-                        </a>
-                    </div>
-
-                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
-                            <i class="mdi mdi-menu mdi-24px"></i>
-                        </a>
-                    </div>
-
-                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-                        <ul class="navbar-nav flex-row align-items-center ms-auto">
-                            <!-- Search -->
-
-                            <!-- /Search -->
-
-                            <!-- Language -->
-
-                            <!--/ Language -->
-
-                            <!-- Style Switcher -->
-                            <li class="nav-item me-1 me-xl-0">
-                                <a class="nav-link btn btn-text-secondary rounded-pill btn-icon style-switcher-toggle hide-arrow"
-                                    href="javascript:void(0);">
-                                    <i class="mdi mdi-24px"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item navbar-search-wrapper me-1 me-xl-0">
-                                <a class="nav-link" href="{{ route('login') }}">
-                                    Login <i class="mdi mdi-login mdi-24px scaleX-n1-rtl"></i>
-                                </a>
-                            </li>
-                            <!--/ Style Switcher -->
-
-                            <!-- Quick links  -->
-
-                            <!-- Quick links -->
-
-                            <!-- Notification -->
-
-                            <!--/ Notification -->
-
-                            <!-- User -->
-
-                            <!--/ User -->
-                        </ul>
-                    </div>
-
-                    <!-- Search Small Screens -->
-                    <div class="navbar-search-wrapper search-input-wrapper container-xxl d-none">
-                        <input type="text" class="form-control search-input border-0" placeholder="Search..."
-                            aria-label="Search..." />
-                        <i class="mdi mdi-close search-toggler cursor-pointer"></i>
-                    </div>
-                </div>
-            </nav>
-
-            <!-- / Navbar -->
-
-            <!-- Layout container -->
-            <div class="layout-page">
-                <!-- Content wrapper -->
-                <div class="content-wrapper">
-
-                    <!-- / Menu -->
-
-                    <!-- Content -->
-
-                    <div class="container-xxl flex-grow-1 container-p-y">
-                        <div class="row mb-5">
-                            <div class="col-md-12 text-center">
-                                <h1 class="display-4 fw-bold mb-3">Bank Sampah</h1>
-                                <p class="lead mb-4">Solusi pengelolaan sampah yang mudah dan ramah lingkungan.</p>
-                                <a href="{{ route('login') }}" class="btn btn-primary btn-lg me-2">Masuk</a>
-                                <a href="{{ route('register') }}" class="btn btn-outline-primary btn-lg">Daftar</a>
-                            </div>
-                        </div>
-
-                        <!-- Features Section -->
-                        <section class="py-5">
-                            <div class="container">
-                                <div class="row text-center">
-                                    <div class="col-md-4 mb-4">
-                                        <i class="mdi mdi-recycle mdi-48px text-primary mb-3"></i>
-                                        <h4>Pengelolaan Sampah</h4>
-                                        <p>Mengelola sampah dengan mudah dan efisien.</p>
-                                    </div>
-                                    <div class="col-md-4 mb-4">
-                                        <i class="mdi mdi-chart-line mdi-48px text-primary mb-3"></i>
-                                        <h4>Pelacakan Transaksi</h4>
-                                        <p>Memantau riwayat transaksi secara real-time.</p>
-                                    </div>
-                                    <div class="col-md-4 mb-4">
-                                        <i class="mdi mdi-account-group mdi-48px text-primary mb-3"></i>
-                                        <h4>Komunitas Peduli Lingkungan</h4>
-                                        <p>Bergabung dengan komunitas yang peduli lingkungan.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- About Section -->
-                        <section class="bg-light py-5">
-                            <div class="container">
-                                <h2 class="text-center mb-4">Tentang Bank Sampah</h2>
-                                <p class="text-center mx-auto" style="max-width: 700px;">
-                                    Bank Sampah adalah aplikasi yang membantu masyarakat dalam mengelola sampah secara efektif dan efisien.
-                                    Dengan sistem ini, Anda dapat menyetor sampah, memantau transaksi, dan berkontribusi pada lingkungan yang lebih bersih.
-                                </p>
-                            </div>
-                        </section>
-
-                        <!-- Call to Action -->
-                        <section class="text-center py-5 bg-primary text-white">
-                            <div class="container">
-                                <h3 class="mb-4">Mulai kelola sampah Anda sekarang!</h3>
-                                <a href="{{ route('register') }}" class="btn btn-light btn-lg">Daftar Sekarang</a>
-                            </div>
-                        </section>
-
-                    </div>
-                    <!--/ Content -->
-
-                    <!-- Footer -->
-                    <footer class="content-footer footer bg-footer-theme">
-                        <div class="container-xxl">
-                            <div class="footer-container d-flex align-items-center justify-content-between py-3 flex-md-row flex-column">
-                                <div class="mb-2 mb-md-0">
-                                    ©
-                                    <script>
-                                        document.write(new Date().getFullYear());
-                                    </script>
-                                    , dibuat oleh Adrian Akhmad Firdaus.
-                                </div>
-                            </div>
-                        </div>
-                    </footer>
-                    <!-- / Footer -->
-
-                    <div class="content-backdrop fade"></div>
-                </div>
-                <!--/ Content wrapper -->
-            </div>
-
-            <!--/ Layout container -->
-        </div>
+    <!-- Navbar -->
+<nav class="navbar">
+    <div class="logo">
+        <!-- Replace Laravel logo with app logo or smaller image -->
+        <img src="{{ asset('img/logo.png') }}" alt="Logo" />
+        <!-- Removed app name text to avoid extra left alignment -->
     </div>
+    <div class="nav-links">
+        <a href="{{ route('login') }}" class="login">Masuk</a>
+        <a href="{{ route('register') }}" class="register">Daftar</a>
+    </div>
+</nav>
 
-    <!-- Overlay -->
-    <div class="layout-overlay layout-menu-toggle"></div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Ubah <span class="highlight-green">Sampahmu</span> Jadi <span class="highlight-blue">Koin Digital</span></h1>
+        <p>ECOCOIN memungkinkan kamu menukar sampah menjadi koin digital yang bisa digunakan untuk berbagai hadiah dan layanan eksklusif. Mari bersama-sama menjaga lingkungan sambil mendapatkan reward!</p>
+        <button class="btn-primary" onclick="window.location.href='{{ route('register') }}'">Mulai Sekarang</button>
+    </section>
 
-    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
-    <div class="drag-target"></div>
+    <!-- Features Section -->
+    <section class="features">
+        <div class="feature-card">
+            <i class="mdi mdi-recycle"></i>
+            <h3>Pengelolaan Sampah Bertanggung Jawab</h3>
+            <p>Dapatkan reward atas kontribusi kamu untuk lingkungan dengan mengelola sampah secara bertanggung jawab.</p>
+        </div>
+        <div class="feature-card">
+            <i class="mdi mdi-gift"></i>
+            <h3>Mudah Mendapatkan Hadiah</h3>
+            <p>Tukarkan sampah yang kamu kelola menjadi koin digital untuk berbagai produk dan layanan menarik.</p>
+        </div>
+        <div class="feature-card">
+            <i class="mdi mdi-account-group"></i>
+            <h3>Dampak untuk Komunitas</h3>
+            <p>Menghubungkan masyarakat, bank sampah, dan pemerintah daerah dalam satu ekosistem yang saling menguntungkan.</p>
+        </div>
+    </section>
 
-    <!--/ Layout wrapper -->
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <h2>Cara Kerja ECOCOIN</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="icon mdi mdi-account-plus"></div>
+                <h4>Registrasi</h4>
+                <p>Daftarkan diri kamu di platform ECOCOIN</p>
+            </div>
+            <div class="step">
+                <div class="icon mdi mdi-calendar-clock"></div>
+                <h4>Jadwalkan Penjemputan</h4>
+                <p>Atur jadwal penjemputan sampah sesuai keinginan</p>
+            </div>
+            <div class="step">
+                <div class="icon mdi mdi-currency-usd"></div>
+                <h4>Dapatkan Koin</h4>
+                <p>Tukarkan sampahmu menjadi koin digital</p>
+            </div>
+            <div class="step">
+                <div class="icon mdi mdi-gift"></div>
+                <h4>Tukar Hadiah</h4>
+                <p>Gunakan koin untuk mendapatkan hadiah menarik</p>
+            </div>
+        </div>
+    </section>
 
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
-    <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/node-waves/node-waves.js') }}"></script>
+    <!-- Roles Section -->
+    <section class="roles">
+        <h2>Peran dalam ECOCOIN</h2>
+        <div class="role-cards">
+            <div class="role-card">
+                <div class="icon mdi mdi-account-tie"></div>
+                <h4>Super Admin</h4>
+                <p>Mengelola seluruh sistem, termasuk pengguna, bank sampah, dan memastikan ekosistem berjalan dengan baik.</p>
+            </div>
+            <div class="role-card">
+                <div class="icon mdi mdi-domain"></div>
+                <h4>Kepala Dinas Lingkungan</h4>
+                <p>Memantau dan memastikan pengelolaan sampah serta pelaksanaan program berjalan sesuai regulasi dan kebijakan.</p>
+            </div>
+            <div class="role-card">
+                <div class="icon mdi mdi-account-multiple"></div>
+                <h4>End User</h4>
+                <p>Masyarakat yang dapat mendaftar, meminta penjemputan sampah, dan menukar koin menjadi hadiah di dalam aplikasi.</p>
+            </div>
+        </div>
+    </section>
 
-    <script src="{{ asset('assets/vendor/libs/hammer/hammer.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/i18n/i18n.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
+    <!-- Final Call to Action -->
+    <section class="final-cta">
+        <h2>Siap Mengubah Sampahmu Jadi Berkah?</h2>
+        <p>Bergabunglah dengan ECOCOIN dan lihat bagaimana aplikasi ini bisa membuat sampahmu bernilai!</p>
+        <button class="btn-primary" onclick="window.location.href='{{ route('register') }}'">Mulai Perjalanan Eco-mu</button>
+    </section>
 
-    <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
-    <script src="{{ asset('assets/vendor/libs/block-ui/block-ui.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/sortablejs/sortable.js') }}"></script>
-
-
-    <!-- Main JS -->
-    <script src="{{ asset('assets/js/main.js') }}"></script>
-
-    <!-- Page JS -->
-
-    <!-- yield -->
-    <script>
-        let url = `{{ url('/') }}`;
-    </script>
+    <!-- Footer -->
+<footer class="footer">
+    <p>© 2024 {{ env('app_name') }}. Mengubah sampah menjadi berkah untuk masa depan yang lebih hijau.</p>
+</footer>
 </body>
 
 </html>

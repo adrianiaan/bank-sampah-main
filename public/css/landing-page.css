@@ -1,0 +1,330 @@
+/* Reset some default styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background-color: #f5f9f8;
+    color: #333;
+}
+a {
+    text-decoration: none;
+}
+/* Navbar */
+nav.navbar {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 0.75rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+nav.navbar .logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #2a7a2a;
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+    padding-left: 1rem;
+}
+.navbar .logo img {
+    height: 72px !important; /* Increased logo size for better visibility */
+    width: auto !important;
+    margin-right: 10px;
+    transform: scale(4);
+}
+nav.navbar .nav-links {
+    display: flex;
+    gap: 1rem;
+}
+nav.navbar .nav-links a {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 600;
+    color: #2a7a2a;
+    transition: background-color 0.3s ease;
+}
+nav.navbar .nav-links a.login {
+    background-color: transparent;
+    border: 2px solid #2a7a2a;
+}
+nav.navbar .nav-links a.login:hover {
+    background-color: #2a7a2a;
+    color: white;
+}
+nav.navbar .nav-links a.register {
+    background-color: #2a7a2a;
+    color: white;
+}
+nav.navbar .nav-links a.register:hover {
+    background-color: #1f5c1f;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(90deg, #e0f2e9 0%, #a8d5a3 100%);
+    padding: 6rem 2rem 4rem 2rem;
+    text-align: center;
+}
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: #2a7a2a;
+}
+.hero h1 .highlight-green {
+    color: #2a7a2a;
+}
+.hero h1 .highlight-blue {
+    color: #2a5db0;
+}
+.hero p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    color: #444;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.hero .btn-primary {
+    background-color: #2a7a2a;
+    color: white;
+    padding: 0.75rem 2rem;
+    font-weight: 700;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    margin-right: 1rem;
+    transition: background-color 0.3s ease;
+}
+.hero .btn-primary:hover {
+    background-color: #1f5c1f;
+}
+.hero .btn-secondary {
+    background-color: white;
+    color: #2a7a2a;
+    padding: 0.75rem 2rem;
+    font-weight: 700;
+    border-radius: 6px;
+    border: 2px solid #2a7a2a;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.hero .btn-secondary:hover {
+    background-color: #e0f2e9;
+}
+
+/* Features Section */
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 4rem 2rem;
+    flex-wrap: wrap;
+}
+.feature-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 2rem;
+    width: 280px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+.feature-card i {
+    font-size: 4rem;
+    color: #2a7a2a;
+    margin-bottom: 1rem;
+}
+.feature-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+.feature-card p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* How It Works Section */
+.how-it-works {
+    background-color: #f0f9f5;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+.how-it-works h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    color: #2a7a2a;
+}
+.steps {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+.step {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 2rem;
+    width: 220px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+.step:hover {
+    transform: translateY(-10px);
+}
+.step .icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #2a7a2a;
+}
+.step h4 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+.step p {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+/* Roles Section */
+.roles {
+    background-color: #e6f2f0;
+    padding: 4rem 2rem;
+    text-align: center;
+}
+.roles h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    color: #2a7a2a;
+}
+.role-cards {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+.role-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 2rem;
+    width: 280px;
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+.role-card:hover {
+    transform: translateY(-10px);
+}
+.role-card .icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #2a7a2a;
+}
+.role-card h4 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+.role-card p {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+/* Call to Action Section */
+.final-cta {
+    /* Changed background to solid white and text to dark for requested style */
+    background-color: white;
+    color: #2a7a2a;
+    padding: 4rem 2rem;
+    text-align: center;
+    flex-grow: 1;
+}
+.final-cta h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #2a7a2a; /* Changed heading color to green */
+}
+.final-cta p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #2a7a2a; /* Changed paragraph color to green */
+}
+.final-cta .btn-primary {
+    background-color: #2a7a2a;
+    color: white;
+    padding: 0.75rem 2rem;
+    font-weight: 700;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.final-cta .btn-primary:hover {
+    background-color: #1f5c1f;
+}
+
+/* Footer */
+footer.footer {
+    background-color: #0b2e13;
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+    margin-top: auto;
+    width: 100%;
+}
+footer.footer .logo {
+    display: none;
+}
+footer.footer .logo svg {
+    height: 30px;
+}
+footer.footer .logo img {
+    display: none;
+}
+footer.footer p {
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .features, .steps, .role-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+    nav.navbar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    nav.navbar .nav-links {
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+    }
+    nav.navbar .nav-links a {
+        width: 100%;
+        text-align: center;
+    }
+}
+nav.navbar .logo img {
+    height: 48px !important;
+}
+
+/* Perbesar ukuran ikon mdi kecuali logo */
+.mdi {
+    font-size: 4rem;
+}
