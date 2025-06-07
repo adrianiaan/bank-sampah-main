@@ -34,5 +34,13 @@
                 <div data-i18n="Page 2">Riwayat Transaksi</div>
             </a>
         </li>
+        @if(auth()->check() && (auth()->user()->role === 'super_admin' || auth()->user()->role === 'kepala_dinas'))
+        <li class="menu-item {{ request()->is('admin/users*') ? 'active' : '' }}">
+            <a href="{{ route('admin.users.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-account-multiple"></i>
+                <div data-i18n="User Management">Manajemen Pengguna</div>
+            </a>
+        </li>
+        @endif
     </ul>
 </aside>

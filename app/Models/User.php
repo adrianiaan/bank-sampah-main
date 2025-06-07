@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -42,4 +43,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    /**
+     * Check if user has super admin role
+     */
+    public function isSuperAdmin()
+    {
+        return $this->role === 'super_admin';
+    }
+
+    /**
+     * Check if user has kepala dinas role
+     */
+    public function isKepalaDinas()
+    {
+        return $this->role === 'kepala_dinas';
+    }
+
+    /**
+     * Check if user has end user role
+     */
+    public function isEndUser()
+    {
+        return $this->role === 'end_user';
+    }
 }
