@@ -47,8 +47,8 @@ class JenisSampahController extends Controller
             $name = rand(1, 999);
             $extension = $files->getClientOriginalExtension();
             $newname = $name . '.' . $extension;
-            Storage::putFileAs('foto', $files, $newname);
-            $file = '/storage/foto/' . $newname;
+            Storage::disk('public')->putFileAs('foto', $files, $newname);
+            $file = 'foto/' . $newname;
         } else {
             $file = null;
         }

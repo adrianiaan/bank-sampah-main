@@ -7,14 +7,15 @@
 
 @section('content')
     <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Home</span> / {{ $title }}</h5>
-    <div class="row">
-        <div class="col-4">
-            <div class="card">
+    <div class="row" style="align-items: stretch;">
+        @if(auth()->user()->role === 'super_admin')
+        <div class="col-4 d-flex flex-column">
+            <div class="card flex-grow-1 d-flex flex-column">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h5 class="h5"> Input Data {{ $title }}</h5>
                 </div>
-                <div class="card-body">
-                    <form action="{{ route('jenis_sampah.store') }}" method="post" id="form-jenis-sampah">
+                <div class="card-body flex-grow-1 overflow-auto">
+                    <form action="{{ route('jenis_sampah.store') }}" method="post" id="form-jenis-sampah" class="h-100 d-flex flex-column">
                         @csrf
                         <div class="form-floating form-floating-outline mb-3">
                             <input class="form-control" id="name" type="text" name="name" placeholder="Name"
@@ -62,12 +63,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-8">
-            <div class="card">
+        @endif
+        <div class="@if(auth()->user()->role === 'super_admin') col-8 @else col-12 @endif d-flex flex-column">
+            <div class="card flex-grow-1 d-flex flex-column" style="min-height: 600px;">
                 <div class="card-header  d-flex align-items-center justify-content-between">
                     <h5 class="h5">Data {{ $title }}</h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body flex-grow-1">
                     {{ $dataTable->table() }}
                 </div>
             </div>

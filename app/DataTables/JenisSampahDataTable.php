@@ -21,8 +21,11 @@ class JenisSampahDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))
-            ->addColumn('action', function ($data) {
+        $currentUser = auth()->user();
+        $dataTable = new EloquentDataTable($query);
+
+        if ($currentUser->role === 'super_admin') {
+            $dataTable = $dataTable->addColumn('action', function ($data) {
                 $csrf =  csrf_token();
                 $btn = '<div class="btn-group">
                 <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">Action</button>
@@ -36,8 +39,15 @@ class JenisSampahDataTable extends DataTable
                 </ul>
               </div>';
                 return $btn;
-            })
-            ->rawColumns(['action'])
+            });
+        }
+
+        $dataTable = $dataTable->editColumn('foto', function ($data) {
+            $url = asset('storage/' . $data->foto);
+            return '<img src="' . $url . '" alt="Foto" style="width: 50px; height: auto;">';
+        });
+
+        return $dataTable->rawColumns(['action', 'foto'])
             ->setRowId('id');
     }
 
@@ -54,18 +64,25 @@ class JenisSampahDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
-        return $this->builder()
+        $currentUser = auth()->user();
+
+        $builder = $this->builder()
             ->setTableId('jenissampah-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            //->dom('Bfrtip')
             ->orderBy(1)
-            ->selectStyleSingle()
-            ->scrollX(true)
-            ->parameters([
-                'dom'          => 'Bfrtip',
-                'buttons'      => ['excel', 'csv', 'reload'],
-            ]);
+            ->selectStyleSingle();
+
+        if (in_array($currentUser->role, ['super_admin', 'kepala_dinas'])) {
+            $builder = $builder->scrollX(true)
+                ->parameters([
+                    'dom'          => 'Bfrtip',
+                    'buttons'      => ['excel', 'csv', 'reload'],
+                    'scrollY'     => '', // remove vertical scroll to allow table to expand
+                ]);
+        }
+
+        return $builder;
     }
 
     /**
@@ -73,20 +90,26 @@ class JenisSampahDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
+        $currentUser = auth()->user();
 
+        $columns = [
             Column::make('id'),
             Column::make('name'),
             Column::make('kategori'),
             Column::make('deskripsi'),
             Column::make('foto'),
             Column::make('harga')->title('Harga Per Kg')->width(100),
-            Column::computed('action')
+        ];
+
+        if ($currentUser->role === 'super_admin') {
+            $columns[] = Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(100)
-                ->addClass('text-center'),
-        ];
+                ->addClass('text-center');
+        }
+
+        return $columns;
     }
 
     /**
