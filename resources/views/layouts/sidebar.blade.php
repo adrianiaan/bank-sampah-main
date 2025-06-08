@@ -41,6 +41,12 @@
                 <div data-i18n="User Management">Manajemen Pengguna</div>
             </a>
         </li>
+        <li class="menu-item {{ request()->is('admin/penjemputan*') ? 'active' : '' }}">
+            <a href="{{ route('penjemputan.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-truck"></i>
+                <div data-i18n="Jadwal Penjemputan">Jadwal Penjemputan</div>
+            </a>
+        </li>
         @endif
     </ul>
 </aside>

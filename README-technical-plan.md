@@ -29,15 +29,18 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
   - `PUT /admin/jenis-sampah/{id}`
   - `DELETE /admin/jenis-sampah/{id}`
 
-### 1.3. Penjadwalan Penjemputan
-- **Model:** Penjemputan (user_id, jadwal, status)
+### 1.3. Jadwal Penjemputan
+- **Model:** Penjemputan (user_id, jadwal, status, lokasi_koordinat, alamat)
 - **Fitur:**
-  - Lihat jadwal penjemputan
-  - Update status penjemputan (terjadwal, selesai, batal)
-  - Notifikasi ke pengguna
+  - Input penjemputan oleh End_User dengan memilih titik lokasi di peta menggunakan Leaflet Maps
+  - Geocoding untuk membaca alamat dari koordinat yang dipilih
+  - Penjadwalan penjemputan dengan status awal "Terjadwal"
+  - Update status penjemputan oleh SuperAdmin dengan status: "Terjadwal", "Selesai", atau "Batal"
+  - Notifikasi ke pengguna terkait status penjemputan
 - **Endpoint API / Controller:**
-  - `GET /admin/penjemputan`
-  - `PUT /admin/penjemputan/{id}`
+  - `GET /admin/penjemputan` - Lihat jadwal penjemputan (SuperAdmin, Kepala Dinas)
+  - `POST /penjemputan` - Input penjemputan baru (End_User, SuperAdmin)
+  - `PUT /admin/penjemputan/{id}` - Update status penjemputan (SuperAdmin)
 
 ### 1.4. Transaksi dan Riwayat
 - **Model:** Transaksi (user_id, jenis_sampah_id, jumlah, harga, status)
