@@ -6,7 +6,7 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
 
 ## 1. Struktur Modul dan Fitur Utama
 
-### 1.1. Manajemen Pengguna
+### 1.1. Manajemen Pengguna (Done)
 - **Model:** User (dengan atribut role: super_admin, kepala_dinas, end_user)
 - **Fitur:**
   - CRUD pengguna
@@ -18,7 +18,7 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
   - `PUT /admin/users/{id}` - Update pengguna
   - `DELETE /admin/users/{id}` - Hapus pengguna
 
-### 1.2. Manajemen Jenis Sampah
+### 1.2. Manajemen Jenis Sampah (Done)
 - **Model:** JenisSampah (nama, kategori, harga_per_kilo, deskripsi, foto)
 - **Fitur:**
   - CRUD jenis sampah
