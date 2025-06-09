@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\Penjemputan;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
+use Illuminate\Support\Facades\Auth;
 
 class PenjemputanDataTable extends DataTable
 {
@@ -17,22 +18,32 @@ class PenjemputanDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
+        $user = Auth::user();
 
         return $dataTable
-            ->addColumn('action', function ($row) {
-                $editUrl = route('penjemputan.edit', $row->id);
-                $deleteUrl = route('penjemputan.destroy', $row->id);
-                $jadwalFormatted = date('Y-m-d\TH:i', strtotime($row->jadwal));
-                $buttons = '<button type="button" class="btn btn-sm btn-primary me-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="'.$row->id.'" data-jadwal="'.$jadwalFormatted.'" data-status="'.$row->status.'" data-lokasi="'.$row->lokasi_koordinat.'" data-alamat="'.htmlspecialchars($row->alamat).'">Edit</button>';
-                $buttons .= '<form action="'.$deleteUrl.'" method="POST" style="display:inline-block;" onsubmit="return confirm(\'Yakin ingin menghapus data ini?\');">';
-                $buttons .= csrf_field();
-                $buttons .= method_field('DELETE');
-                $buttons .= '<button type="submit" class="btn btn-sm btn-danger">Hapus</button>';
-                $buttons .= '</form>';
-                return $buttons;
+            ->addColumn('action', function ($row) use ($user) {
+                if ($user->role === 'super_admin' || $user->role === 'end_user') {
+                    $editUrl = route('penjemputan.edit', $row->id);
+                    $deleteUrl = route('penjemputan.destroy', $row->id);
+                    $jadwalFormatted = date('Y-m-d\TH:i', strtotime($row->jadwal));
+                    $buttons = '<button type="button" class="btn btn-sm btn-primary me-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="'.$row->id.'" data-jadwal="'.$jadwalFormatted.'" data-status="'.$row->status.'" data-lokasi="'.$row->lokasi_koordinat.'" data-alamat="'.htmlspecialchars($row->alamat).'">Edit</button>';
+                    if ($user->role === 'super_admin') {
+                        $buttons .= '<form action="'.$deleteUrl.'" method="POST" style="display:inline-block;" onsubmit="return confirm(\'Yakin ingin menghapus data ini?\');">';
+                        $buttons .= csrf_field();
+                        $buttons .= method_field('DELETE');
+                        $buttons .= '<button type="submit" class="btn btn-sm btn-danger">Hapus</button>';
+                        $buttons .= '</form>';
+                    }
+                    return $buttons;
+                }
+                return ''; // Kepala Dinas tidak melihat tombol aksi
             })
-            ->editColumn('status', function ($row) {
+            ->editColumn('status', function ($row) use ($user) {
                 $options = ['Terjadwal', 'Selesai', 'Batal'];
+                if ($user->role === 'end_user') {
+                    // Untuk End_User, status ditampilkan sebagai teks biasa tanpa dropdown
+                    return $row->status;
+                }
                 $select = '<select class="form-select form-select-sm status-select" data-id="'.$row->id.'" data-jadwal="'.$row->jadwal.'" data-lokasi="'.$row->lokasi_koordinat.'" data-alamat="'.htmlspecialchars($row->alamat).'">';
                 foreach ($options as $option) {
                     $selected = $row->status === $option ? 'selected' : '';
@@ -44,7 +55,10 @@ class PenjemputanDataTable extends DataTable
             ->editColumn('user.name', function ($row) {
                 return $row->user ? $row->user->name : 'N/A';
             })
-            ->rawColumns(['action', 'status']);
+            ->rawColumns(['action', 'status'])
+            ->with('userRole', function () {
+                return \Illuminate\Support\Facades\Auth::user()->role;
+            });
     }
 
     /**
@@ -55,7 +69,15 @@ class PenjemputanDataTable extends DataTable
      */
     public function query(Penjemputan $model)
     {
-        return $model->newQuery()->with('user')->select('penjemputan.*');
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $query = $model->newQuery()->with('user')->select('penjemputan.*');
+
+        if ($user && $user->role === 'end_user') {
+            // End_User hanya melihat data miliknya sendiri
+            $query->where('user_id', $user->id);
+        }
+
+        return $query;
     }
 
     /**
@@ -85,15 +107,40 @@ class PenjemputanDataTable extends DataTable
      */
     protected function getColumns()
     {
-        return [
-            'id',
-            ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
-            'jadwal',
-            'status',
-            //'lokasi_koordinat',
-            'alamat',
-            ['data' => 'action', 'name' => 'action', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false],
-        ];
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $columns = [];
+
+        if ($user && $user->role === 'super_admin') {
+            $columns = [
+                'id',
+                ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
+                'jadwal',
+                'status',
+                //'lokasi_koordinat',
+                'alamat',
+            ];
+            $columns[] = ['data' => 'action', 'name' => 'action', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false];
+        } elseif ($user && $user->role === 'end_user') {
+            $columns = [
+                ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
+                'jadwal',
+                'status',
+                //'lokasi_koordinat',
+                'alamat',
+                ['data' => 'action', 'name' => 'action', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false],
+            ];
+        } else {
+            $columns = [
+                'id',
+                ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
+                'jadwal',
+                'status',
+                //'lokasi_koordinat',
+                'alamat',
+            ];
+        }
+
+        return $columns;
     }
 
     /**

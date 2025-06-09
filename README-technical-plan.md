@@ -29,7 +29,7 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
   - `PUT /admin/jenis-sampah/{id}`
   - `DELETE /admin/jenis-sampah/{id}`
 
-### 1.3. Jadwal Penjemputan
+### 1.3. Jadwal Penjemputan (DONE)
 - **Model:** Penjemputan (user_id, jadwal, status, lokasi_koordinat, alamat)
 - **Fitur:**
   - Input penjemputan oleh End_User dengan memilih titik lokasi di peta menggunakan Leaflet Maps

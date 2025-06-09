@@ -34,7 +34,7 @@
     <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Home</span> / Jadwal Penjemputan</h5>
 
     <div class="row" style="align-items: stretch;">
-        @if(auth()->user()->role === 'super_admin')
+        @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'end_user')
         <div class="col-4 d-flex flex-column">
             <div class="card flex-grow-1 d-flex flex-column">
                 <div class="card-header d-flex align-items-center justify-content-between">
@@ -69,7 +69,7 @@
             </div>
         </div>
         @endif
-        <div class="@if(auth()->user()->role === 'super_admin') col-8 @else col-12 @endif d-flex flex-column">
+        <div class="@if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'end_user') col-8 @else col-12 @endif d-flex flex-column">
             <div class="card flex-grow-1 d-flex flex-column" style="min-height: 600px;">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h5 class="h5">Data Jadwal Penjemputan</h5>

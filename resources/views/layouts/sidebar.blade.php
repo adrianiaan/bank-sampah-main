@@ -41,6 +41,8 @@
                 <div data-i18n="User Management">Manajemen Pengguna</div>
             </a>
         </li>
+        @endif
+        @if(auth()->check() && (auth()->user()->role === 'super_admin' || auth()->user()->role === 'kepala_dinas' || auth()->user()->role === 'end_user'))
         <li class="menu-item {{ request()->is('admin/penjemputan*') ? 'active' : '' }}">
             <a href="{{ route('penjemputan.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-truck"></i>
