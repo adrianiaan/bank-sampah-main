@@ -10,6 +10,8 @@ use App\DataTables\UserManagementDataTable;
 
 class UserManagementController extends Controller
 {
+    
+
     /**
      * Display a listing of the users.
      */

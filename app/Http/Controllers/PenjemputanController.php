@@ -14,9 +14,6 @@ class PenjemputanController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware(['super_admin', 'kepala_dinas'])->only(['index']);
-        $this->middleware('super_admin')->only(['update']);
-        $this->middleware('super_admin')->only(['store']);
     }
 
     /**
@@ -42,7 +39,7 @@ class PenjemputanController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // Fix: Allow SuperAdmin and End_User to store penjemputan
+        // Allow SuperAdmin and End_User to store penjemputan
         $user = Auth::user();
         if (!in_array($user->role, ['end_user', 'super_admin'])) {
             abort(403, 'Unauthorized action.');

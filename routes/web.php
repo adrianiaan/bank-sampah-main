@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\JenisSampahController;
 use App\Http\Controllers\PenjemputanController;
@@ -51,14 +52,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/riwayattransaksi', [RiwayatController::class, 'index'])->name('riwayat.transaksi');
 });
 
-Route::middleware(['auth', 'super_admin', 'kepala_dinas'])->group(function () {
+Route::middleware(['auth', 'access_penjemputan'])->group(function () {
     Route::get('/admin/penjemputan', [PenjemputanController::class, 'index'])->name('penjemputan.index');
     Route::put('/admin/penjemputan/{id}', [PenjemputanController::class, 'update'])->name('penjemputan.update');
     Route::get('/admin/penjemputan/{id}/edit', [PenjemputanController::class, 'edit'])->name('penjemputan.edit');
     Route::delete('/admin/penjemputan/{id}', [PenjemputanController::class, 'destroy'])->name('penjemputan.destroy');
 });
-Route::middleware(['auth', 'super_admin'])->group(function () {
+Route::middleware(['auth', 'access_penjemputan'])->group(function () {
     Route::post('/penjemputan', [PenjemputanController::class, 'store'])->name('penjemputan.store');
 });
+
+Route::get('/user/autocomplete', [TransaksiController::class, 'autocomplete'])->name('user.autocomplete');
+Route::resource('transaksi', TransaksiController::class);
 
 require __DIR__ . '/auth.php';

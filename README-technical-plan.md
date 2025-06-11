@@ -29,7 +29,7 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
   - `PUT /admin/jenis-sampah/{id}`
   - `DELETE /admin/jenis-sampah/{id}`
 
-### 1.3. Jadwal Penjemputan
+### 1.3. Jadwal Penjemputan (DONE)
 - **Model:** Penjemputan (user_id, jadwal, status, lokasi_koordinat, alamat)
 - **Fitur:**
   - Input penjemputan oleh End_User dengan memilih titik lokasi di peta menggunakan Leaflet Maps
@@ -43,26 +43,30 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
   - `PUT /admin/penjemputan/{id}` - Update status penjemputan (SuperAdmin)
 
 ### 1.4. Transaksi dan Riwayat
-- **Model:** Transaksi (user_id, jenis_sampah_id, jumlah, harga, status)
+- **Model:**
+  - Transaksi (id, penjemputan_id, user_id, jenis_sampah_id, berat_kg, harga_per_kilo_saat_transaksi, nilai_saldo, tanggal_transaksi, dicatat_oleh_user_id, status_verifikasi, catatan_verifikasi, created_at, updated_at)
 - **Fitur:**
-  - Pantau transaksi penukaran sampah
-  - Verifikasi dan update status transaksi
+  - Pencatatan transaksi saat status Penjemputan menjadi "Selesai"
+  - Superadmin mengisi form detail berat sampah
+  - Sistem membuat entri di Transaksi dan memperbarui Saldo pengguna
+  - Superadmin dapat membuat transaksi secara manual tanpa melalui penjemputan
+  - End_User dapat melihat riwayat transaksi mereka
+  - Superadmin dapat melihat semua transaksi
 - **Endpoint API / Controller:**
+  - `PUT /admin/penjemputan/{id}/complete`
+  - `POST /admin/transaksi/direct-input`
   - `GET /admin/transaksi`
-  - `PUT /admin/transaksi/{id}`
+  - `GET /user/transaksi`
 
-### 1.5. Manajemen Koin dan Hadiah
-- **Model:** Koin (user_id, saldo), Hadiah (nama, deskripsi, harga_koin)
+### 1.5. Manajemen Saldo
+- **Model:** Saldo (user_id, jumlah_saldo, last_updated_at)
 - **Fitur:**
-  - Kelola saldo koin pengguna
-  - Kelola katalog hadiah
-  - Pantau penukaran hadiah
+  - End_User dapat melihat saldo mereka
+  - Superadmin dapat melihat dan mengurangi saldo pengguna (untuk pencairan fisik)
 - **Endpoint API / Controller:**
-  - `GET /admin/koin`
-  - `GET /admin/hadiah`
-  - `POST /admin/hadiah`
-  - `PUT /admin/hadiah/{id}`
-  - `DELETE /admin/hadiah/{id}`
+  - `GET /admin/saldo`
+  - `GET /user/saldo`
+  - `POST /admin/saldo/{user_id}/withdraw`
 
 ### 1.6. Dashboard Super Admin
 - Statistik pengguna, transaksi, penjemputan

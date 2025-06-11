@@ -41,12 +41,30 @@
                 <div data-i18n="User Management">Manajemen Pengguna</div>
             </a>
         </li>
+        @endif
+        @if(auth()->check() && (auth()->user()->role === 'super_admin' || auth()->user()->role === 'kepala_dinas' || auth()->user()->role === 'end_user'))
         <li class="menu-item {{ request()->is('admin/penjemputan*') ? 'active' : '' }}">
             <a href="{{ route('penjemputan.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-truck"></i>
                 <div data-i18n="Jadwal Penjemputan">Jadwal Penjemputan</div>
             </a>
         </li>
+         @if(auth()->check() && (auth()->user()->role === 'super_admin' || auth()->user()->role === 'kepala_dinas'))
+        <li class="menu-item {{ request()->is('transaksi*') ? 'active' : '' }}">
+            <a href="{{ route('transaksi.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-cart-variant"></i>
+                <div data-i18n="Transaksi">Transaksi</div>
+            </a>
+        </li>
+         @endif
         @endif
+         @if(auth()->check() && (auth()->user()->role === 'end_user'))
+        <li class="menu-item {{ request()->is('transaksi*') ? 'active' : '' }}">
+            <a href="{{ route('transaksi.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-cart-variant"></i>
+                <div data-i18n="Transaksi">Transaksi</div>
+            </a>
+        </li>
+         @endif
     </ul>
 </aside>
