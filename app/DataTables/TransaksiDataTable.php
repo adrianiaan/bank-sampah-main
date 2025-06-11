@@ -19,6 +19,7 @@ class TransaksiDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        $user = Auth::user();
         return datatables()
             ->eloquent($query)
             ->addColumn('action', function ($transaksi) {
@@ -30,31 +31,29 @@ class TransaksiDataTable extends DataTable
             ->addColumn('user', function ($transaksi) {
                 return $transaksi->user->name;
             })
-            ->editColumn('status_verifikasi', function ($row) {
-                $user = Auth::user();
+            ->editColumn('status_verifikasi', function ($row) use ($user) {
                 $options = ['terverifikasi', 'ditolak'];
                  if ($user->role === 'kepala_dinas') {
-                    $select = '<select class="form-select form-select-sm status-select" data-id="'.$row->id.'" disabled>';
-                    foreach ($options as $option) {
-                        $selected = $row->status_verifikasi === $option ? 'selected' : '';
-                        $select .= '<option value="'.$option.'" '.$selected.' '.$selected.'>'.$option.'</option>';
-                    }
-                    $select .= '</select>';
-                    return $select;
+                    // Untuk Kepala Dinas, status ditampilkan sebagai teks biasa tanpa dropdown
+                    return $row->status_verifikasi;
                 } elseif ($user->role === 'end_user') {
                     // Untuk End_User, status ditampilkan sebagai teks biasa tanpa dropdown
                     return $row->status_verifikasi;
-                } else {
-                    $select = '<select class="form-select form-select-sm status-select" data-id="'.$row->id.'">';
-                    foreach ($options as $option) {
-                        $selected = $row->status_verifikasi === $option ? 'selected' : '';
-                        $select .= '<option value="'.$option.'" '.$selected.'>'.$option.'</option>';
-                    }
-                    $select .= '</select>';
-                    return $select;
+                } elseif ($user->role === 'super_admin') {
+                    return $row->status_verifikasi;
                 }
+                $select = '<select class="form-select form-select-sm status-select" data-id="'.$row->id.'">';
+                foreach ($options as $option) {
+                    $selected = $row->status_verifikasi === $option ? 'selected' : '';
+                    $select .= '<option value="'.$option.'" '.$selected.'>'.$option.'</option>';
+                }
+                $select .= '</select>';
+                return $select;
             })
-            ->rawColumns(['action', 'status_verifikasi']);
+            ->rawColumns(['action', 'status_verifikasi'])
+            ->orderColumn('status_verifikasi', function ($query, $direction) {
+                $query->orderBy('status_verifikasi', $direction);
+            });
     }
 
     /**
@@ -67,6 +66,10 @@ class TransaksiDataTable extends DataTable
     {
         $user = \Illuminate\Support\Facades\Auth::user();
         $query = $model->newQuery()->with('user')->select('transaksis.*');
+
+        if ($user && $user->role === 'end_user') {
+            $query->where('user_id', $user->id);
+        }
 
         return $query;
     }
@@ -99,7 +102,7 @@ class TransaksiDataTable extends DataTable
     protected function getColumns()
     {
         $user = \Illuminate\Support\Facades\Auth::user();
-         $columns = [
+        $columns = [
             Column::make('user')->title('User'),
             Column::make('jenis_sampah')->title('Jenis Sampah'),
             Column::make('berat_kg')->title('Berat (Kg)'),
@@ -108,17 +111,25 @@ class TransaksiDataTable extends DataTable
             Column::make('catatan_verifikasi')->data('catatan_verifikasi')->name('catatan_verifikasi')->title('Catatan Verifikasi'),
             Column::make('tanggal_transaksi')->title('Tanggal'),
             Column::make('status_verifikasi')->title('Status'),
-         ];
+        ];
 
-         if ($user && $user->role === 'super_admin') {
-             $columns[] = Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center');
-         }
+        if ($user && $user->role === 'end_user') {
+            $columns[] = Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center');
+        } else {
+            $columns[] = Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center');
+        }
 
-         return $columns;
+         
+
+        return $columns;
     }
 
     /**

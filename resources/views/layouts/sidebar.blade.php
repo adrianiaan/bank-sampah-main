@@ -58,5 +58,13 @@
         </li>
          @endif
         @endif
+         @if(auth()->check() && (auth()->user()->role === 'end_user'))
+        <li class="menu-item {{ request()->is('transaksi*') ? 'active' : '' }}">
+            <a href="{{ route('transaksi.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-cart-variant"></i>
+                <div data-i18n="Transaksi">Transaksi</div>
+            </a>
+        </li>
+         @endif
     </ul>
 </aside>

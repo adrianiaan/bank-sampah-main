@@ -37,8 +37,11 @@ class TransaksiController extends Controller
     /**
      * Display a listing of the transaksi.
      */
-    public function index(TransaksiDataTable $dataTable)
+    public function index()
     {
+        $user = Auth::user();
+        $dataTable = new TransaksiDataTable();
+        
         return $dataTable->render('admin.transaksi.index');
     }
 
@@ -57,15 +60,21 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+
         $validator = Validator::make($request->all(), [
-            'user_name' => 'required',
             'jenis_sampah_id' => 'required|exists:jenis_sampahs,id',
             'berat_kg' => 'required|numeric',
-           'catatan_verifikasi' => 'nullable|string'
-       ]);
+            'catatan_verifikasi' => 'nullable|string'
+        ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Validasi tambahan untuk memastikan End User hanya dapat membuat transaksi untuk diri mereka sendiri
+        if ($user->role == 'end_user') {
+            $request->merge(['user_name' => $user->name]);
         }
 
         $user = User::where('name', $request->user_name)->first();
@@ -129,26 +138,34 @@ class TransaksiController extends Controller
             return redirect()->route('transaksi.index')->with('error', 'Kepala Dinas tidak memiliki akses untuk mengubah transaksi.');
         }
         $validator = Validator::make($request->all(), [
-            'penjemputan_id' => 'nullable|exists:penjemputan,id',
             'user_id' => 'required|exists:users,id',
             'jenis_sampah_id' => 'required|exists:jenis_sampahs,id',
             'berat_kg' => 'required|numeric',
-           'harga_per_kilo_saat_transaksi' => 'required|numeric',
-           'nilai_saldo' => 'required|numeric',
-           'tanggal_transaksi' => 'required|date',
-           'dicatat_oleh_user_id' => 'nullable|exists:users,id',
-           'status_verifikasi' => 'nullable|in:terverifikasi,ditolak',
-           'catatan_verifikasi' => 'nullable|string',
-       ]);
+            'status_verifikasi' => 'nullable|in:terverifikasi,ditolak',
+            'catatan_verifikasi' => 'nullable|string',
+        ]);
 
         if ($validator->fails()) {
+            \Log::error('Validation errors: ' . json_encode($validator->errors()->all()));
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $transaksi->update($request->all());
+        // Get jenis sampah
+         $jenis_sampah = Jenis_sampah::find($request->jenis_sampah_id);
+
+         // Calculate nilai saldo
+         $nilai_saldo = $request->berat_kg * $jenis_sampah->harga;
+
+        $transaksi->update([
+            'user_id' => $request->user_id,
+            'jenis_sampah_id' => $request->jenis_sampah_id,
+            'berat_kg' => $request->berat_kg,
+            'status_verifikasi' => $request->status_verifikasi,
+            'catatan_verifikasi' => $request->catatan_verifikasi,
+            'nilai_saldo' => $nilai_saldo,
+        ]);
 
         // TODO: Add notification logic here
-
         return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil diperbarui');
     }
 

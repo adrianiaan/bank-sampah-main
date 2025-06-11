@@ -31,10 +31,12 @@
                             <input type="number" class="form-control" id="nilai_saldo" name="nilai_saldo" step="0.01" required readonly>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="catatan_verifikasi" class="form-label">Catatan Verifikasi</label>
-                            <textarea class="form-control" id="catatan_verifikasi" name="catatan_verifikasi" rows="3"></textarea>
-                        </div>
+                        @if(Auth::user()->role != 'end_user')
+                            <div class="mb-3">
+                                <label for="catatan_verifikasi" class="form-label">Catatan Verifikasi</label>
+                                <textarea class="form-control" id="catatan_verifikasi" name="catatan_verifikasi" rows="3"></textarea>
+                            </div>
+                        @endif
                         
                         
                         
