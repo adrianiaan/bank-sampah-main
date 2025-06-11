@@ -90,7 +90,6 @@ class TransaksiDataTable extends DataTable
     {
         $user = \Illuminate\Support\Facades\Auth::user();
          $columns = [
-            Column::make('id'),
             Column::make('user')->title('User'),
             Column::make('jenis_sampah')->title('Jenis Sampah'),
             Column::make('berat_kg')->title('Berat (Kg)'),
@@ -100,10 +99,10 @@ class TransaksiDataTable extends DataTable
             Column::make('tanggal_transaksi')->title('Tanggal'),
             Column::make('status_verifikasi')->title('Status'),
              Column::computed('action')
-                 ->exportable(false)
-                 ->printable(false)
-                 ->width(60)
-                 ->addClass('text-center'),
+                  ->exportable(false)
+                  ->printable(false)
+                  ->width(60)
+                  ->addClass('text-center'),
          ];
 
          return $columns;

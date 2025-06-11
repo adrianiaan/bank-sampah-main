@@ -11,17 +11,8 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="penjemputan_id" class="form-label">Penjemputan</label>
-                            <select class="form-select" id="penjemputan_id" name="penjemputan_id">
-                                <option value="">-- Pilih Penjemputan --</option>
-                                @foreach($penjemputans as $penjemputan)
-                                    <option value="{{ $penjemputan->id }}" {{ $transaksi->penjemputan_id == $penjemputan->id ? 'selected' : '' }}>{{ $penjemputan->id }} - {{ $penjemputan->alamat }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="user_id" class="form-label">User</label>
-                            <input type="number" class="form-control" id="user_id" name="user_id" value="{{ $transaksi->user_id }}" required>
+                            <label for="user_name" class="form-label">User</label>
+                            <input type="text" class="form-control" id="user_name" name="user_name" value="{{ $transaksi->user->name }}" required>
                         </div>
                         <div class="mb-3">
                             <label for="jenis_sampah_id" class="form-label">Jenis Sampah</label>
@@ -37,33 +28,29 @@
                             <input type="number" class="form-control" id="berat_kg" name="berat_kg" step="0.01" value="{{ $transaksi->berat_kg }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="harga_per_kilo_saat_transaksi" class="form-label">Harga / Kg</label>
-                            <input type="number" class="form-control" id="harga_per_kilo_saat_transaksi" name="harga_per_kilo_saat_transaksi" step="0.01" value="{{ $transaksi->harga_per_kilo_saat_transaksi }}" required>
-                        </div>
-                        <div class="mb-3">
                             <label for="nilai_saldo" class="form-label">Nilai Saldo</label>
                             <input type="number" class="form-control" id="nilai_saldo" name="nilai_saldo" step="0.01" value="{{ $transaksi->nilai_saldo }}" required readonly>
                         </div>
-                        <div class="mb-3">
-                            <label for="tanggal_transaksi" class="form-label">Tanggal Transaksi</label>
-                            <input type="datetime-local" class="form-control" id="tanggal_transaksi" name="tanggal_transaksi" value="{{ \Carbon\Carbon::parse($transaksi->tanggal_transaksi)->format('Y-m-d\TH:i') }}" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="dicatat_oleh_user_id" class="form-label">Dicatat Oleh (User ID)</label>
-                            <input type="number" class="form-control" id="dicatat_oleh_user_id" name="dicatat_oleh_user_id" value="{{ $transaksi->dicatat_oleh_user_id }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="status_verifikasi" class="form-label">Status Verifikasi</label>
-                            <select class="form-select" id="status_verifikasi" name="status_verifikasi">
-                                <option value="">-- Pilih Status --</option>
-                                <option value="terverifikasi" {{ $transaksi->status_verifikasi == 'terverifikasi' ? 'selected' : '' }}>Terverifikasi</option>
-                                <option value="ditolak" {{ $transaksi->status_verifikasi == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
-                            </select>
-                        </div>
+
                         <div class="mb-3">
                             <label for="catatan_verifikasi" class="form-label">Catatan Verifikasi</label>
                             <textarea class="form-control" id="catatan_verifikasi" name="catatan_verifikasi" rows="3">{{ $transaksi->catatan_verifikasi }}</textarea>
                         </div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <a href="{{ route('transaksi.index') }}" class="btn btn-secondary">Kembali</a>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
                 </div>
@@ -73,14 +60,64 @@
 @endsection
 
 @push('script')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#berat_kg, #harga_per_kilo_saat_transaksi').on('input', function() {
-            var berat_kg = parseFloat($('#berat_kg').val()) || 0;
-            var harga_per_kilo = parseFloat($('#harga_per_kilo_saat_transaksi').val()) || 0;
-            var nilai_saldo = berat_kg * harga_per_kilo;
-            $('#nilai_saldo').val(nilai_saldo.toFixed(2));
+        $("#user_name").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "{{ route('user.autocomplete') }}",
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        response($.map(data, function(item) {
+                            return {
+                                label: item.name,
+                                value: item.name,
+                                id: item.id
+                            }
+                        }));
+                    }
+                });
+            },
+            select: function(event, ui) {
+                $('#user_id').val(ui.item.id);
+            }
         });
+        $('#jenis_sampah_id').on('change', function() {
+            var jenis_sampah_id = $(this).val();
+            var berat_kg = $('#berat_kg').val();
+             updateNilaiSaldo(jenis_sampah_id, berat_kg);
+        });
+
+        $('#berat_kg').on('input', function() {
+            var jenis_sampah_id = $('#jenis_sampah_id').val();
+            var berat_kg = $(this).val();
+             updateNilaiSaldo(jenis_sampah_id, berat_kg);
+        });
+
+        function updateNilaiSaldo(jenis_sampah_id, berat_kg) {
+            if (jenis_sampah_id && berat_kg) {
+                $.ajax({
+                    url: '/jenis_sampah/show/' + jenis_sampah_id,
+                    type: 'GET',
+                    success: function(data) {
+                        var harga = data.harga;
+                        var nilai_saldo = parseFloat(berat_kg) * parseFloat(harga);
+                        $('#nilai_saldo').val(nilai_saldo);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("response err", xhr.responseText);
+                    }
+                });
+            } else {
+                $('#nilai_saldo').val('');
+            }
+        }
     });
 </script>
 @endpush
