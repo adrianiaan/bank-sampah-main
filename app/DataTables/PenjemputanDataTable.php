@@ -40,7 +40,10 @@ class PenjemputanDataTable extends DataTable
             })
             ->editColumn('status', function ($row) use ($user) {
                 $options = ['Terjadwal', 'Selesai', 'Batal'];
-                if ($user->role === 'end_user') {
+                if ($user->role === 'kepala_dinas') {
+                    // Untuk Kepala Dinas, status ditampilkan sebagai teks biasa tanpa dropdown
+                    return $row->status;
+                } elseif ($user->role === 'end_user') {
                     // Untuk End_User, status ditampilkan sebagai teks biasa tanpa dropdown
                     return $row->status;
                 }
