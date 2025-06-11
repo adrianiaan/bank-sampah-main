@@ -119,7 +119,10 @@ class TransaksiDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center');
-        } else {
+        } elseif ($user && $user->role === 'kepala_dinas') {
+             // Jangan tampilkan kolom aksi untuk Kepala Dinas
+        }
+         else {
             $columns[] = Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
