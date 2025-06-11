@@ -13,6 +13,7 @@ class TransaksiDataTable extends DataTable
     /**
      * Build DataTable class.
      *
+     *
      * @param mixed $query Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
@@ -32,17 +33,26 @@ class TransaksiDataTable extends DataTable
             ->editColumn('status_verifikasi', function ($row) {
                 $user = Auth::user();
                 $options = ['terverifikasi', 'ditolak'];
-                if ($user->role === 'end_user') {
+                 if ($user->role === 'kepala_dinas') {
+                    $select = '<select class="form-select form-select-sm status-select" data-id="'.$row->id.'" disabled>';
+                    foreach ($options as $option) {
+                        $selected = $row->status_verifikasi === $option ? 'selected' : '';
+                        $select .= '<option value="'.$option.'" '.$selected.' '.$selected.'>'.$option.'</option>';
+                    }
+                    $select .= '</select>';
+                    return $select;
+                } elseif ($user->role === 'end_user') {
                     // Untuk End_User, status ditampilkan sebagai teks biasa tanpa dropdown
                     return $row->status_verifikasi;
+                } else {
+                    $select = '<select class="form-select form-select-sm status-select" data-id="'.$row->id.'">';
+                    foreach ($options as $option) {
+                        $selected = $row->status_verifikasi === $option ? 'selected' : '';
+                        $select .= '<option value="'.$option.'" '.$selected.'>'.$option.'</option>';
+                    }
+                    $select .= '</select>';
+                    return $select;
                 }
-                $select = '<select class="form-select form-select-sm status-select" data-id="'.$row->id.'">';
-                foreach ($options as $option) {
-                    $selected = $row->status_verifikasi === $option ? 'selected' : '';
-                    $select .= '<option value="'.$option.'" '.$selected.'>'.$option.'</option>';
-                }
-                $select .= '</select>';
-                return $select;
             })
             ->rawColumns(['action', 'status_verifikasi']);
     }
@@ -98,12 +108,15 @@ class TransaksiDataTable extends DataTable
             Column::make('catatan_verifikasi')->data('catatan_verifikasi')->name('catatan_verifikasi')->title('Catatan Verifikasi'),
             Column::make('tanggal_transaksi')->title('Tanggal'),
             Column::make('status_verifikasi')->title('Status'),
-             Column::computed('action')
+         ];
+
+         if ($user && $user->role === 'super_admin') {
+             $columns[] = Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
-                  ->addClass('text-center'),
-         ];
+                  ->addClass('text-center');
+         }
 
          return $columns;
     }

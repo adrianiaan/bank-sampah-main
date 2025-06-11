@@ -32,6 +32,9 @@
             <div class="card flex-grow-1 d-flex flex-column" style="min-height: 600px;">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h5 class="h5">Data Transaksi</h5>
+                    @if(Auth::user()->role == 'super_admin')
+                        <a href="{{ route('transaksi.create') }}" class="btn btn-primary">Tambah Transaksi</a>
+                    @endif
                 </div>
                 <div class="card-body flex-grow-1 overflow-auto">
                     {{ $dataTable->table(['class' => 'table table-striped table-bordered'], true) }}
