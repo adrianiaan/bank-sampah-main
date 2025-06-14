@@ -1,6 +1,7 @@
 <div>
     <a href="{{ route('admin.saldo.show', $saldo->user_id) }}" class="btn btn-primary me-2">Lihat Saldo</a>
 
+    @if(auth()->user()->role === 'super_admin')
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#withdrawModal{{ $saldo->id }}">
         Penarikan Saldo
@@ -28,4 +29,5 @@
             </form>
         </div>
     </div>
+    @endif
 </div>

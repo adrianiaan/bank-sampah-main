@@ -60,7 +60,7 @@
             </a>
         </li>
          @endif
-          @if(auth()->check() && (auth()->user()->role === 'super_admin'))
+          @if(auth()->check() && (auth()->user()->role === 'super_admin' || auth()->user()->role === 'kepala_dinas'))
            <li class="menu-item {{ request()->is('admin/saldo*') ? 'active' : '' }}">
             <a href="{{ route('admin.saldo.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-cash-multiple"></i>
