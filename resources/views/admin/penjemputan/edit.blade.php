@@ -30,6 +30,8 @@
                             <input type="text" class="form-control" id="lokasi_koordinat" name="lokasi_koordinat" value="{{ $penjemputan->lokasi_koordinat }}" required>
                         </div>
 
+                        <div id="mapEdit" style="height: 400px; margin-bottom: 1rem;"></div>
+
                         <div class="mb-3">
                             <label for="alamat" class="form-label">Alamat</label>
                             <textarea class="form-control" id="alamat" name="alamat" rows="2" required>{{ $penjemputan->alamat }}</textarea>
@@ -43,3 +45,78 @@
         </div>
     </div>
 @endsection
+
+@push('style')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" crossorigin="" />
+    <style>
+        #mapEdit {
+            height: 400px;
+            width: 100%;
+            margin-bottom: 1rem;
+            min-height: 400px;
+            min-width: 100%;
+        }
+    </style>
+@endpush
+
+@push('script')
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" crossorigin=""></script>
+
+    <script>
+        var map = L.map('mapEdit').setView([-3.318750, 114.593000], 13); // Default to Banjarmasin
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        var marker;
+
+        function onMapClick(e) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker(e.latlng, {draggable: true}).addTo(map);
+
+            document.getElementById('lokasi_koordinat').value = e.latlng.lat + ',' + e.latlng.lng;
+
+            // Geocoding using Nominatim API
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${e.latlng.lat}&lon=${e.latlng.lng}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('alamat').value = data.display_name || '';
+                })
+                .catch(() => {
+                    document.getElementById('alamat').value = '';
+                });
+        }
+
+        map.on('click', onMapClick);
+
+        // Initialize marker at existing coordinates
+        var koordinat = "{{ $penjemputan->lokasi_koordinat }}";
+        if (koordinat) {
+            var parts = koordinat.split(',');
+            if (parts.length === 2) {
+                var latlng = [parseFloat(parts[0]), parseFloat(parts[1])];
+                marker = L.marker(latlng, {draggable: true}).addTo(map);
+                map.setView(latlng, 15);
+
+                marker.on('dragend', function (e) {
+                    var position = marker.getLatLng();
+                    document.getElementById('lokasi_koordinat').value = position.lat + ',' + position.lng;
+
+                    // Update address on dragend
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${position.lat}&lon=${position.lng}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('alamat').value = data.display_name || '';
+                        })
+                        .catch(() => {
+                            document.getElementById('alamat').value = '';
+                        });
+                });
+            }
+        }
+    </script>
+@endpush
