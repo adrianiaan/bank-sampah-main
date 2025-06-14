@@ -66,7 +66,7 @@ class SaldoDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('id'),
+            Column::make('id')->visible(false),
             Column::make('user.name')->title('User'),
             Column::make('jumlah_saldo'),
             Column::make('last_updated_at'),

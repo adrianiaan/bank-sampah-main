@@ -172,6 +172,9 @@ class TransaksiController extends Controller
          // Calculate nilai saldo
          $nilai_saldo = $request->berat_kg * $jenis_sampah->harga;
 
+        // Hitung selisih nilai saldo untuk update saldo user
+        $selisih_nilai_saldo = $nilai_saldo - $transaksi->nilai_saldo;
+
         $transaksi->update([
             'user_id' => $request->user_id,
             'jenis_sampah_id' => $request->jenis_sampah_id,
@@ -180,6 +183,20 @@ class TransaksiController extends Controller
             'catatan_verifikasi' => $request->catatan_verifikasi,
             'nilai_saldo' => $nilai_saldo,
         ]);
+
+        // Update saldo user sesuai selisih nilai saldo
+        $saldo = Saldo::where('user_id', $request->user_id)->first();
+        if ($saldo) {
+            $saldo->jumlah_saldo += $selisih_nilai_saldo;
+            $saldo->last_updated_at = now();
+            $saldo->save();
+        } else {
+            Saldo::create([
+                'user_id' => $request->user_id,
+                'jumlah_saldo' => $nilai_saldo,
+                'last_updated_at' => now(),
+            ]);
+        }
 
         // TODO: Add notification logic here
         return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil diperbarui');
@@ -193,6 +210,15 @@ class TransaksiController extends Controller
         if (Auth::user()->role == 'kepala_dinas') {
             return redirect()->route('transaksi.index')->with('error', 'Kepala Dinas tidak memiliki akses untuk menghapus transaksi.');
         }
+
+        // Kurangi saldo user sesuai nilai_saldo transaksi yang dihapus
+        $saldo = Saldo::where('user_id', $transaksi->user_id)->first();
+        if ($saldo) {
+            $saldo->jumlah_saldo -= $transaksi->nilai_saldo;
+            $saldo->last_updated_at = now();
+            $saldo->save();
+        }
+
         $transaksi->delete();
 
         return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dihapus');
