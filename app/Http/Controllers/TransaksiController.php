@@ -107,19 +107,21 @@ class TransaksiController extends Controller
             'catatan_verifikasi' => $request->catatan_verifikasi,
         ]);
 
-        // Update user's saldo
-        $saldo = Saldo::where('user_id', $user->id)->first();
+        // Update user's saldo hanya jika user bukan end_user (misal superAdmin atau kepala_dinas)
+        if ($user->role != 'end_user') {
+            $saldo = Saldo::where('user_id', $user->id)->first();
 
-        if ($saldo) {
-            $saldo->jumlah_saldo += $nilai_saldo;
-            $saldo->last_updated_at = now();
-            $saldo->save();
-        } else {
-            Saldo::create([
-                'user_id' => $user->id,
-                'jumlah_saldo' => $nilai_saldo,
-                'last_updated_at' => now(),
-            ]);
+            if ($saldo) {
+                $saldo->jumlah_saldo += $nilai_saldo;
+                $saldo->last_updated_at = now();
+                $saldo->save();
+            } else {
+                Saldo::create([
+                    'user_id' => $user->id,
+                    'jumlah_saldo' => $nilai_saldo,
+                    'last_updated_at' => now(),
+                ]);
+            }
         }
 
         // TODO: Add notification logic here
@@ -175,27 +177,49 @@ class TransaksiController extends Controller
         // Hitung selisih nilai saldo untuk update saldo user
         $selisih_nilai_saldo = $nilai_saldo - $transaksi->nilai_saldo;
 
+        // Cek perubahan status_verifikasi
+        $status_sebelumnya = $transaksi->status_verifikasi;
+        $status_baru = $request->status_verifikasi;
+
         $transaksi->update([
             'user_id' => $request->user_id,
             'jenis_sampah_id' => $request->jenis_sampah_id,
             'berat_kg' => $request->berat_kg,
-            'status_verifikasi' => $request->status_verifikasi,
+            'status_verifikasi' => $status_baru,
             'catatan_verifikasi' => $request->catatan_verifikasi,
             'nilai_saldo' => $nilai_saldo,
         ]);
 
-        // Update saldo user sesuai selisih nilai saldo
         $saldo = Saldo::where('user_id', $request->user_id)->first();
-        if ($saldo) {
-            $saldo->jumlah_saldo += $selisih_nilai_saldo;
-            $saldo->last_updated_at = now();
-            $saldo->save();
-        } else {
-            Saldo::create([
-                'user_id' => $request->user_id,
-                'jumlah_saldo' => $nilai_saldo,
-                'last_updated_at' => now(),
-            ]);
+
+        // Logika update saldo berdasarkan perubahan status_verifikasi
+        if ($status_sebelumnya !== 'terverifikasi' && $status_baru === 'terverifikasi') {
+            // Status berubah menjadi terverifikasi, tambahkan nilai saldo
+            if ($saldo) {
+                $saldo->jumlah_saldo += $nilai_saldo;
+                $saldo->last_updated_at = now();
+                $saldo->save();
+            } else {
+                Saldo::create([
+                    'user_id' => $request->user_id,
+                    'jumlah_saldo' => $nilai_saldo,
+                    'last_updated_at' => now(),
+                ]);
+            }
+        } elseif ($status_sebelumnya === 'terverifikasi' && $status_baru === 'ditolak') {
+            // Status berubah dari terverifikasi ke ditolak, kurangi nilai saldo
+            if ($saldo) {
+                $saldo->jumlah_saldo -= $nilai_saldo;
+                $saldo->last_updated_at = now();
+                $saldo->save();
+            }
+        } elseif ($status_baru === 'terverifikasi') {
+            // Status tetap terverifikasi, update saldo sesuai selisih nilai saldo
+            if ($saldo) {
+                $saldo->jumlah_saldo += $selisih_nilai_saldo;
+                $saldo->last_updated_at = now();
+                $saldo->save();
+            }
         }
 
         // TODO: Add notification logic here
@@ -216,7 +240,18 @@ class TransaksiController extends Controller
         if ($saldo) {
             $saldo->jumlah_saldo -= $transaksi->nilai_saldo;
             $saldo->last_updated_at = now();
-            $saldo->save();
+
+            // Cek apakah user masih punya transaksi lain selain yang dihapus
+            $transaksi_lain = Transaksi::where('user_id', $transaksi->user_id)
+                ->where('id', '!=', $transaksi->id)
+                ->exists();
+
+            if (!$transaksi_lain || $saldo->jumlah_saldo <= 0) {
+                // Hapus record saldo jika tidak ada transaksi lain atau saldo nol/kecil
+                $saldo->delete();
+            } else {
+                $saldo->save();
+            }
         }
 
         $transaksi->delete();
