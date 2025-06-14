@@ -9,10 +9,17 @@
                 <div class="card-body">
                     <form action="{{ route('transaksi.store') }}" method="POST">
                         @csrf
-                        <div class="mb-3">
-                            <label for="user_name" class="form-label">User</label>
-                            <input type="text" class="form-control" id="user_name" name="user_name" required>
-                        </div>
+                        @if(Auth::user()->role == 'end_user')
+                            <div class="mb-3">
+                                <label for="user_name" class="form-label">User</label>
+                                <input type="text" class="form-control" id="user_name" name="user_name" value="{{ Auth::user()->name }}" readonly>
+                            </div>
+                        @else
+                            <div class="mb-3">
+                                <label for="user_name" class="form-label">User</label>
+                                <input type="text" class="form-control" id="user_name" name="user_name" required>
+                            </div>
+                        @endif
                         <div class="mb-3">
                             <label for="jenis_sampah_id" class="form-label">Jenis Sampah</label>
                             <select class="form-select" id="jenis_sampah_id" name="jenis_sampah_id">
