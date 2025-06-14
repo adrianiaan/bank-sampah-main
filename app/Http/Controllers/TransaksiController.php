@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use App\DataTables\TransaksiDataTable;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use App\Models\Saldo;
 
 class TransaksiController extends Controller
 {
@@ -105,6 +106,21 @@ class TransaksiController extends Controller
             'tanggal_transaksi' => now(),
             'catatan_verifikasi' => $request->catatan_verifikasi,
         ]);
+
+        // Update user's saldo
+        $saldo = Saldo::where('user_id', $user->id)->first();
+
+        if ($saldo) {
+            $saldo->jumlah_saldo += $nilai_saldo;
+            $saldo->last_updated_at = now();
+            $saldo->save();
+        } else {
+            Saldo::create([
+                'user_id' => $user->id,
+                'jumlah_saldo' => $nilai_saldo,
+                'last_updated_at' => now(),
+            ]);
+        }
 
         // TODO: Add notification logic here
 

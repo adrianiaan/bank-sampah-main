@@ -28,12 +28,6 @@
                 <div data-i18n="Page 1">Jenis Sampah</div>
             </a>
         </li>
-        <li class="menu-item {{ 'riwayattransaksi' == request()->path() ? 'active' : '' }}">
-            <a href="{{ route('riwayat.transaksi') }}" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-cart-variant"></i>
-                <div data-i18n="Page 2">Riwayat Transaksi</div>
-            </a>
-        </li>
         @if(auth()->check() && (auth()->user()->role === 'super_admin' || auth()->user()->role === 'kepala_dinas'))
         <li class="menu-item {{ request()->is('admin/users*') ? 'active' : '' }}">
             <a href="{{ route('admin.users.index') }}" class="menu-link">
@@ -63,6 +57,14 @@
             <a href="{{ route('transaksi.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-cart-variant"></i>
                 <div data-i18n="Transaksi">Transaksi</div>
+            </a>
+        </li>
+         @endif
+          @if(auth()->check() && (auth()->user()->role === 'super_admin'))
+           <li class="menu-item {{ request()->is('admin/saldo*') ? 'active' : '' }}">
+            <a href="{{ route('admin.saldo.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-cash-multiple"></i>
+                <div data-i18n="Manajemen Saldo">Manajemen Saldo</div>
             </a>
         </li>
          @endif

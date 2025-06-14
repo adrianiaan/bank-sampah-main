@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SaldoController; // Add SaldoController
 
 /*
 |--------------------------------------------------------------------------
@@ -64,5 +65,11 @@ Route::middleware(['auth', 'access_penjemputan'])->group(function () {
 
 Route::get('/user/autocomplete', [TransaksiController::class, 'autocomplete'])->name('user.autocomplete');
 Route::resource('transaksi', TransaksiController::class);
+
+// Saldo Routes
+Route::get('/user/saldo', [SaldoController::class, 'showUserSaldo'])->name('user.saldo');
+Route::get('/admin/saldo', [SaldoController::class, 'index'])->name('admin.saldo.index');
+Route::get('/admin/saldo/{user_id}', [SaldoController::class, 'showUserSaldoAdmin'])->name('admin.saldo.show');
+Route::post('/admin/saldo/{user_id}/withdraw', [SaldoController::class, 'withdraw'])->name('admin.saldo.withdraw');
 
 require __DIR__ . '/auth.php';

@@ -30,13 +30,17 @@
                                         <img src="{{ asset('assets/img/avatars/1.png') }}" alt
                                             class="w-px-40 h-auto rounded-circle" />
                                     </div>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <span class="fw-semibold d-block">John Doe</span>
-                                    <small class="text-muted">Admin</small>
-                                </div>
-                            </div>
-                        </a>
+                                 </div>
+                                 <div class="flex-grow-1">
+                                     <span class="fw-semibold d-block">{{ Auth::user()->name }}</span>
+                                     @if(Auth::user()->saldo)
+                                         <small class="text-muted">Saldo: Rp. {{ number_format(Auth::user()->saldo->jumlah_saldo, 2, ',', '.') }}</small>
+                                     @else
+                                         <small class="text-muted">Saldo: Rp. 0</small>
+                                     @endif
+                                 </div>
+                             </div>
+                         </a>
                     </li>
                     <li>
                         <div class="dropdown-divider"></div>
