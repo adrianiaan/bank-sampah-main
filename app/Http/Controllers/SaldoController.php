@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\DataTables\SaldoDataTable;
+use PDF; // Import DomPDF facade
 
 class SaldoController extends Controller
 {
@@ -91,5 +92,29 @@ class SaldoController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Penarikan saldo berhasil.');
+    }
+
+    /**
+     * Generate PDF for riwayat penarikan saldo.
+     */
+    public function printRiwayatPenarikanPdf($riwayat_id)
+    {
+        $riwayat = \App\Models\RiwayatPenarikanSaldo::findOrFail($riwayat_id);
+        $user = User::findOrFail($riwayat->user_id);
+
+        $pdf = PDF::loadView('admin.saldos.riwayat_penarikan_pdf', compact('user', 'riwayat'));
+        return $pdf->download('riwayat_penarikan_saldo_' . $riwayat->id . '.pdf');
+    }
+
+    /**
+     * Remove the specified saldo from storage.
+     */
+    public function destroy($saldo_id)
+    {
+        $saldo = Saldo::findOrFail($saldo_id);
+        $saldo->delete();
+
+        // Redirect kembali ke halaman manajemen saldo tanpa menampilkan halaman kosong
+        return redirect()->route('admin.saldo.index')->with('success', 'Saldo berhasil dihapus.');
     }
 }

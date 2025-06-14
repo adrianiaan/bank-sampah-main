@@ -54,7 +54,6 @@ class SaldoDataTable extends DataTable
                     ->buttons(
                         Button::make('excel'),
                         Button::make('csv'),
-                        Button::make('pdf'),
                         Button::make('reload')
                     );
     }
