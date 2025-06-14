@@ -113,35 +113,35 @@ class PenjemputanDataTable extends DataTable
         $user = \Illuminate\Support\Facades\Auth::user();
         $columns = [];
 
-        if ($user && $user->role === 'super_admin') {
-            $columns = [
-                'id',
-                ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
-                'jadwal',
-                'status',
-                //'lokasi_koordinat',
-                'alamat',
-            ];
-            $columns[] = ['data' => 'action', 'name' => 'action', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false];
-        } elseif ($user && $user->role === 'end_user') {
-            $columns = [
-                ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
-                'jadwal',
-                'status',
-                //'lokasi_koordinat',
-                'alamat',
-                ['data' => 'action', 'name' => 'action', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false],
-            ];
-        } else {
-            $columns = [
-                'id',
-                ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
-                'jadwal',
-                'status',
-                //'lokasi_koordinat',
-                'alamat',
-            ];
-        }
+            if ($user && $user->role === 'super_admin') {
+                $columns = [
+                    ['data' => 'id', 'visible' => false],
+                    ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
+                    'jadwal',
+                    'status',
+                    //'lokasi_koordinat',
+                    'alamat',
+                ];
+                $columns[] = ['data' => 'action', 'name' => 'action', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false];
+            } elseif ($user && $user->role === 'end_user') {
+                $columns = [
+                    ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
+                    'jadwal',
+                    'status',
+                    //'lokasi_koordinat',
+                    'alamat',
+                    ['data' => 'action', 'name' => 'action', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false],
+                ];
+            } else {
+                $columns = [
+                    ['data' => 'id', 'visible' => false],
+                    ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
+                    'jadwal',
+                    'status',
+                    //'lokasi_koordinat',
+                    'alamat',
+                ];
+            }
 
         return $columns;
     }
