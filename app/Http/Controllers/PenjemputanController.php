@@ -25,6 +25,15 @@ class PenjemputanController extends Controller
     }
 
     /**
+     * Show the form for editing the specified penjemputan.
+     */
+    public function edit($id)
+    {
+        $penjemputan = Penjemputan::findOrFail($id);
+        return view('admin.penjemputan.edit', compact('penjemputan'));
+    }
+
+    /**
      * Store a newly created penjemputan in storage.
      */
     public function store(Request $request)

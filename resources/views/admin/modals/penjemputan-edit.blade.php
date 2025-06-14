@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <a href="{{ route('penjemputan.index') }}" class="btn btn-secondary">Kembali</a>
         <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
       </div>
     </form>
