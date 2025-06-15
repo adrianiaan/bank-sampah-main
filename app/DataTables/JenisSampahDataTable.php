@@ -24,26 +24,14 @@ class JenisSampahDataTable extends DataTable
         $currentUser = auth()->user();
         $dataTable = new EloquentDataTable($query);
 
-        if ($currentUser->role === 'super_admin') {
-            $dataTable = $dataTable->addColumn('action', function ($data) {
-                $csrf =  csrf_token();
-                $btn = '<div class="btn-group">
-                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">Action</button>
-                <ul class="dropdown-menu">
-                  <li>  <button type="button" class="dropdown-item mb-2 open_edit_jenis_sampah" value="' . $data->id . '" data-name="' . $data->name . '" data-kategori="' . $data->kategori . '" data-foto="' . $data->foto . '" data-deskripsi="' . $data->deskripsi . '" data-harga="' . $data->harga . '"><i class="mdi mdi-square-edit-outline text-warning"></i> Ubah</button> </li>
-                  <li>  <form action="/jenis_sampah/' . $data->id . '" method="POST" id="form-delete-jenis-sampah">
-                  <input type="hidden" name="_token" value="' . $csrf . '">
-                  <input type="hidden" name="_method" value="delete" />
-                    <button class="dropdown-item" ><i class="mdi mdi-delete text-danger"></i> Hapus</button>
-                  </form> </li>
-                </ul>
-              </div>';
-                return $btn;
-            });
-        }
+            if ($currentUser->role === 'super_admin') {
+                $dataTable = $dataTable->addColumn('action', function ($data) {
+                    return view('admin.jenis-sampah.action', compact('data'));
+                });
+            }
 
         $dataTable = $dataTable->editColumn('foto', function ($data) {
-            $url = asset('storage/' . $data->foto);
+            $url = $data->foto_url; // gunakan accessor foto_url
             return '<img src="' . $url . '" alt="Foto" style="width: 50px; height: auto;">';
         });
 
@@ -93,7 +81,7 @@ class JenisSampahDataTable extends DataTable
         $currentUser = auth()->user();
 
         $columns = [
-            Column::make('id'),
+            Column::make('id')->visible(false),
             Column::make('name'),
             Column::make('kategori'),
             Column::make('deskripsi'),

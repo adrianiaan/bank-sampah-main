@@ -81,35 +81,43 @@ class JenisSampahController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Jenis_sampah $jenis_sampah)
+    public function edit($id)
     {
-        //
+        $jenis_sampah = Jenis_sampah::findOrFail($id);
+        return view('admin.jenis-sampah.edit', compact('jenis_sampah'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        //
-        $validated = Validator::make($request->all(), [
+        $validated = $request->validate([
             'name' => 'required|max:255',
             'kategori' => 'required',
             'harga' => 'required|numeric',
+            'deskripsi' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if ($validated->fails()) {
-            return response()->json(['status' => 0, 'error' => $validated->errors()]);
+        $jenis_sampah = Jenis_sampah::findOrFail($id);
+
+        if ($request->hasFile('foto')) {
+            // Hapus file foto lama jika ada
+            if ($jenis_sampah->foto && Storage::disk('public')->exists($jenis_sampah->foto)) {
+                Storage::disk('public')->delete($jenis_sampah->foto);
+            }
+            $file = $request->file('foto');
+            $name = rand(1, 999);
+            $extension = $file->getClientOriginalExtension();
+            $newname = $name . '.' . $extension;
+            Storage::disk('public')->putFileAs('foto', $file, $newname);
+            $validated['foto'] = 'foto/' . $newname;
         }
 
-        $jenis_sampah = Jenis_sampah::where('id',  $request->id)->update([
-            'name' => $request->name,
-            'kategori' => $request->kategori,
-            'harga' => $request->harga,
-            'deskripsi' => $request->deskripsi,
-        ]);
+        $jenis_sampah->update($validated);
 
-        return response()->json(['status' => 1, 'message' => 'Data Added successfully!']);
+        return redirect()->route('jenis_sampah.index')->with('success', 'Data berhasil diperbarui!');
     }
 
     /**
@@ -118,6 +126,6 @@ class JenisSampahController extends Controller
     public function destroy($id)
     {
         Jenis_sampah::where('id', '=', $id)->delete();
-        return response()->json(['status' => true, 'message' => 'Delete data Successfully!']);
+        return redirect()->route('jenis_sampah.index')->with('success', 'Data berhasil dihapus!');
     }
 }

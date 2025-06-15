@@ -3,6 +3,8 @@
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\JenisSampahController;
+
+Route::resource('jenis_sampah', JenisSampahController::class);
 use App\Http\Controllers\PenjemputanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatController;
@@ -55,7 +57,6 @@ Route::get('/jenis_sampah/show/{id}', [JenisSampahController::class, 'showByid']
 Route::post('/riwayat', [RiwayatController::class, 'store'])->name('riwayat.store');
 Route::middleware('auth')->group(function () {
     Route::post('/jenis_sampah', [JenisSampahController::class, 'store'])->name('jenis_sampah.store');
-    Route::patch('/jenis_sampah/edit', [JenisSampahController::class, 'update'])->name('jenis_sampah.update');
     Route::delete('/jenis_sampah/{id}', [JenisSampahController::class, 'destroy'])->name('jenis_sampah.destroy');
 });
 Route::middleware('auth')->group(function () {
