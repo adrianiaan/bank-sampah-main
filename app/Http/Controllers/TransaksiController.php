@@ -258,4 +258,26 @@ class TransaksiController extends Controller
 
         return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dihapus');
     }
+
+    /**
+     * Generate PDF of transaksi list.
+     */
+    public function cetakPDF($user_id = null)
+    {
+        $user = auth()->user();
+        if (!in_array($user->role, ['super_admin', 'kepala_dinas', 'end_user'])) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        if ($user->role === 'end_user') {
+            $transaksi = Transaksi::where('user_id', $user->id)->get();
+        } else {
+            // Untuk super_admin dan kepala_dinas, abaikan user_id dan ambil semua data
+            $transaksi = Transaksi::all();
+        }
+
+        $pdf = \PDF::loadView('admin.transaksi.transaksi_pdf', compact('transaksi'));
+        $filename = 'transaksi_' . date('Ymd_His') . '.pdf';
+        return $pdf->download($filename);
+    }
 }

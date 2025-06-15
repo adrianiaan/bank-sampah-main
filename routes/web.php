@@ -37,6 +37,7 @@ Route::middleware(['auth', 'super_admin'])->prefix('admin')->name('admin.')->gro
 // Penjemputan Routes with auth and access_penjemputan middleware to allow end_user access
 Route::middleware(['auth', 'access_penjemputan'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('penjemputan/cetak/pdf/{user_id?}', [App\Http\Controllers\PenjemputanController::class, 'cetakPDF'])->name('penjemputan.cetak.pdf');
+    Route::get('transaksi/cetak/pdf/{user_id?}', [App\Http\Controllers\TransaksiController::class, 'cetakPDF'])->name('transaksi.cetak.pdf');
 });
 
 // Tambahkan route manajemen saldo untuk super_admin dan kepala_dinas
