@@ -34,6 +34,11 @@ Route::middleware(['auth', 'super_admin'])->prefix('admin')->name('admin.')->gro
     Route::get('users/cetak/pdf', [UserManagementController::class, 'cetakPDF'])->name('users.cetak.pdf');
 });
 
+// Penjemputan Routes with auth and access_penjemputan middleware to allow end_user access
+Route::middleware(['auth', 'access_penjemputan'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('penjemputan/cetak/pdf/{user_id?}', [App\Http\Controllers\PenjemputanController::class, 'cetakPDF'])->name('penjemputan.cetak.pdf');
+});
+
 // Tambahkan route manajemen saldo untuk super_admin dan kepala_dinas
 Route::middleware(['auth', 'super_admin'])->group(function () {
     Route::get('/admin/saldo', [SaldoController::class, 'index'])->name('admin.saldo.index');

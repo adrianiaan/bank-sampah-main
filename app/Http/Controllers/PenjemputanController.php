@@ -117,4 +117,26 @@ class PenjemputanController extends Controller
 
         return redirect()->route('penjemputan.index')->with('success', 'Penjemputan berhasil dihapus');
     }
+
+    /**
+     * Generate PDF of penjemputan list.
+     */
+    public function cetakPDF()
+    {
+        $user = auth()->user();
+        \Log::debug('User cetakPDF:', ['user_id' => $user->id, 'role' => $user->role]);
+        if (!in_array($user->role, ['super_admin', 'kepala_dinas', 'end_user'])) {
+            abort(403, 'Unauthorized action.');
+        }
+        if ($user->role === 'end_user') {
+            $penjemputan = Penjemputan::where('user_id', $user->id)->get();
+            \Log::debug('Penjemputan data for end_user:', ['count' => $penjemputan->count()]);
+        } else {
+            $penjemputan = Penjemputan::all();
+            \Log::debug('Penjemputan data for admin:', ['count' => $penjemputan->count()]);
+        }
+        $pdf = \PDF::loadView('admin.penjemputan.penjemputan_pdf', compact('penjemputan'));
+        $filename = 'penjemputan_' . date('Ymd_His') . '.pdf';
+        return $pdf->download($filename);
+    }
 }

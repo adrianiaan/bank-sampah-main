@@ -73,6 +73,9 @@
             <div class="card flex-grow-1 d-flex flex-column" style="min-height: 600px;">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h5 class="h5">Data Jadwal Penjemputan</h5>
+                    @if(auth()->user()->role === 'super_admin' || auth()->user()->role === 'kepala_dinas')
+                    <a href="{{ route('admin.penjemputan.cetak.pdf') }}" target="_blank" class="btn btn-secondary btn-sm">Cetak PDF</a>
+                    @endif
                 </div>
                 <div class="card-body flex-grow-1 overflow-auto">
                     {{ $dataTable->table(['class' => 'table table-striped table-bordered'], true) }}

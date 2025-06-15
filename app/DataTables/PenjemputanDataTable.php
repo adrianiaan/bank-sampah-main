@@ -98,6 +98,14 @@ class PenjemputanDataTable extends DataTable
             ->buttons(
                 'excel',
                 'csv',
+                [
+                    'text' => 'PDF',
+                    'action' => 'function ( e, dt, node, config ) {
+                        var userId = '.\Illuminate\Support\Facades\Auth::id().';
+                        window.open("'.route('admin.penjemputan.cetak.pdf', ['user_id' => '__USER_ID__']).'".replace("__USER_ID__", userId), "_blank");
+                    }',
+                    'className' => "btn btn-secondary",
+                ],
                 'reload'
             );
     }
