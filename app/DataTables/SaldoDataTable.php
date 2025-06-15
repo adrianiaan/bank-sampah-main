@@ -87,10 +87,10 @@ class SaldoDataTable extends DataTable
     {
         return [
             Column::make('id')->visible(false),
-            Column::make('user.name')->title('User'),
+            Column::make('user.name')->title('Nama Pengguna'),
             Column::make('jumlah_saldo'),
-            Column::make('last_updated_at'),
-            Column::computed('action')
+            Column::make('last_updated_at')->title('Terakhir Diperbaharui'),
+            Column::computed('action')->title('Aksi')
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)

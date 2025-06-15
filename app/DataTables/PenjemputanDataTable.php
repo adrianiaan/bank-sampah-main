@@ -123,7 +123,7 @@ class PenjemputanDataTable extends DataTable
             if ($user && $user->role === 'super_admin') {
                 $columns = [
                     ['data' => 'id', 'visible' => false],
-                    ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
+                    ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Nama Pengguna'],
                     'jadwal',
                     'status',
                     //'lokasi_koordinat',
@@ -132,7 +132,7 @@ class PenjemputanDataTable extends DataTable
                 $columns[] = ['data' => 'action', 'name' => 'action', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false];
             } elseif ($user && $user->role === 'end_user') {
                 $columns = [
-                    ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
+                    ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Nama Pengguna'],
                     'jadwal',
                     'status',
                     //'lokasi_koordinat',
@@ -142,7 +142,7 @@ class PenjemputanDataTable extends DataTable
             } else {
                 $columns = [
                     ['data' => 'id', 'visible' => false],
-                    ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
+                    ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Nama Pengguna'],
                     'jadwal',
                     'status',
                     //'lokasi_koordinat',

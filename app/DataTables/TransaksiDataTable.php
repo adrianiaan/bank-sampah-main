@@ -111,9 +111,9 @@ class TransaksiDataTable extends DataTable
     {
         $user = \Illuminate\Support\Facades\Auth::user();
         $columns = [
-            Column::make('user')->title('User'),
+            Column::make('user')->title('Nama Pengguna'),
             Column::make('jenis_sampah')->title('Jenis Sampah'),
-            Column::make('berat_kg')->title('Berat (Kg)'),
+            Column::make('berat_kg')->title('Berat Sampah (Kg)'),
             Column::make('harga_per_kilo_saat_transaksi')->title('Harga / Kg'),
             Column::make('nilai_saldo')->title('Nilai Saldo'),
             Column::make('catatan_verifikasi')->data('catatan_verifikasi')->name('catatan_verifikasi')->title('Catatan Verifikasi'),
@@ -122,7 +122,7 @@ class TransaksiDataTable extends DataTable
         ];
 
         if ($user && $user->role === 'end_user') {
-            $columns[] = Column::computed('action')
+            $columns[] = Column::computed('action') ->title('Aksi')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
@@ -131,7 +131,7 @@ class TransaksiDataTable extends DataTable
              // Jangan tampilkan kolom aksi untuk Kepala Dinas
         }
          else {
-            $columns[] = Column::computed('action')
+            $columns[] = Column::computed('action')->title('Aksi')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

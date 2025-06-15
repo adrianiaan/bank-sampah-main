@@ -93,7 +93,7 @@ if (in_array($currentUser->role, ['super_admin', 'kepala_dinas'])) {
 
         $columns = [
             Column::make('id')->visible(false)->exportable(false)->printable(false),
-            Column::make('name'),
+            Column::make('name')->title('Nama Pengguna'),
             Column::make('kategori'),
             Column::make('deskripsi'),
             Column::make('foto'),
@@ -101,7 +101,7 @@ if (in_array($currentUser->role, ['super_admin', 'kepala_dinas'])) {
         ];
 
         if ($currentUser->role === 'super_admin') {
-            $columns[] = Column::computed('action')
+            $columns[] = Column::computed('action')->title('Aksi')
                 ->exportable(false)
                 ->printable(false)
                 ->width(100)

@@ -86,9 +86,9 @@ class UserManagementDataTable extends DataTable
     {
         $currentUser = auth()->user();
         $columns = [
-            'name',
-            'email',
-            'role',
+            ['data' => 'name', 'title' => 'Nama Pengguna'],
+            ['data' => 'email', 'title' => 'Email'],
+            ['data' => 'role', 'title' => 'Role'],
         ];
         if ($currentUser->role !== 'kepala_dinas') {
             $columns[] = ['data' => 'action', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false];
