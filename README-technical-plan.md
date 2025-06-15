@@ -68,14 +68,6 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
   - `GET /user/saldo`
   - `POST /admin/saldo/{user_id}/withdraw`
 
-### 1.6. Dashboard Super Admin (Selesai)
-- Statistik pengguna, transaksi, penjemputan
-- Grafik tren pengelolaan sampah dan penggunaan koin
-
----
-
-### 1.6. Dashboard Super Admin
-- Modul dashboard tidak digunakan dalam proyek ini dan dihilangkan dari rencana implementasi.
 
 ---
 
