@@ -112,8 +112,6 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
 6. **Manajemen Saldo**
    - Kelola saldo pengguna dan pencairan saldo
 
-7. **Dashboard Super Admin**
-   - Statistik dan grafik
 
 ---
 
@@ -121,8 +119,6 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
 
 - Unit test untuk model dan controller
 - Integration test untuk alur kerja utama
-- UI testing untuk dashboard dan form input
 
 ---
 
-Jika Anda ingin, saya dapat membantu membuatkan kode awal untuk modul-modul tersebut atau membantu langkah demi langkah sesuai prioritas.
