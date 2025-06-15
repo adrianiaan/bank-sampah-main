@@ -1,12 +1,12 @@
-# Rencana Teknis Implementasi Modul Super Admin ECOCOIN
+# Rencana Teknis Implementasi Modul Super Admin Bank Sampah
 
-Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada aplikasi ECOCOIN, sesuai dengan draft fungsi dan alur kerja yang telah disepakati.
+Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada aplikasi Bank Sampah, disesuaikan dengan kondisi proyek yang sudah jadi dan alur kerja yang diperbaiki.
 
 ---
 
 ## 1. Struktur Modul dan Fitur Utama
 
-### 1.1. Manajemen Pengguna (Done)
+### 1.1. Manajemen Pengguna (Selesai)
 - **Model:** User (dengan atribut role: super_admin, kepala_dinas, end_user)
 - **Fitur:**
   - CRUD pengguna
@@ -18,8 +18,8 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
   - `PUT /admin/users/{id}` - Update pengguna
   - `DELETE /admin/users/{id}` - Hapus pengguna
 
-### 1.2. Manajemen Jenis Sampah (Done)
-- **Model:** JenisSampah (nama, kategori, harga_per_kilo, deskripsi, foto)
+### 1.2. Manajemen Jenis Sampah (Selesai)
+- **Model:** Jenis_sampah (nama, kategori, harga_per_kilo, deskripsi, foto)
 - **Fitur:**
   - CRUD jenis sampah
   - Upload dan manajemen foto sampah
@@ -29,7 +29,7 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
   - `PUT /admin/jenis-sampah/{id}`
   - `DELETE /admin/jenis-sampah/{id}`
 
-### 1.3. Jadwal Penjemputan (DONE)
+### 1.3. Jadwal Penjemputan (Selesai)
 - **Model:** Penjemputan (user_id, jadwal, status, lokasi_koordinat, alamat)
 - **Fitur:**
   - Input penjemputan oleh End_User dengan memilih titik lokasi di peta menggunakan Leaflet Maps
@@ -42,7 +42,7 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
   - `POST /penjemputan` - Input penjemputan baru (End_User, SuperAdmin)
   - `PUT /admin/penjemputan/{id}` - Update status penjemputan (SuperAdmin)
 
-### 1.4. Transaksi dan Riwayat
+### 1.4. Transaksi dan Riwayat (Selesai)
 - **Model:**
   - Transaksi (id, penjemputan_id, user_id, jenis_sampah_id, berat_kg, harga_per_kilo_saat_transaksi, nilai_saldo, tanggal_transaksi, dicatat_oleh_user_id, status_verifikasi, catatan_verifikasi, created_at, updated_at)
 - **Fitur:**
@@ -58,7 +58,7 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
   - `GET /admin/transaksi`
   - `GET /user/transaksi`
 
-### 1.5. Manajemen Saldo
+### 1.5. Manajemen Saldo (Selesai)
 - **Model:** Saldo (user_id, jumlah_saldo, last_updated_at)
 - **Fitur:**
   - End_User dapat melihat saldo mereka
@@ -68,15 +68,20 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
   - `GET /user/saldo`
   - `POST /admin/saldo/{user_id}/withdraw`
 
-### 1.6. Dashboard Super Admin
+### 1.6. Dashboard Super Admin (Selesai)
 - Statistik pengguna, transaksi, penjemputan
 - Grafik tren pengelolaan sampah dan penggunaan koin
 
 ---
 
+### 1.6. Dashboard Super Admin
+- Modul dashboard tidak digunakan dalam proyek ini dan dihilangkan dari rencana implementasi.
+
+---
+
 ## 2. Alur Kerja dan Integrasi
 
-- Super Admin mengelola data master (pengguna, jenis sampah, hadiah)
+- Super Admin mengelola data master (pengguna, jenis sampah)
 - Super Admin memantau transaksi dan penjemputan yang dilakukan oleh End User
 - Kepala Dinas dapat mengakses laporan dan memantau pelaksanaan program
 - End User melakukan registrasi, penjadwalan penjemputan, transaksi, dan penukaran hadiah
@@ -87,9 +92,10 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
 
 - Framework: Laravel (PHP)
 - Database: MySQL / MariaDB
-- Frontend: Blade Templates, CSS, JavaScript
+- Frontend: Blade Templates, CSS, JavaScript, Leaflet Maps
 - Autentikasi dan Otorisasi: Laravel Sanctum / Middleware Role-based
 - Notifikasi: Email / In-app Notification
+- Build Tool Frontend: Vite, TailwindCSS, AlpineJS
 
 ---
 
@@ -111,8 +117,8 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
 5. **Implementasi Modul Transaksi dan Riwayat**
    - Pantau dan verifikasi transaksi
 
-6. **Manajemen Koin dan Hadiah**
-   - Kelola saldo koin dan katalog hadiah
+6. **Manajemen Saldo**
+   - Kelola saldo pengguna dan pencairan saldo
 
 7. **Dashboard Super Admin**
    - Statistik dan grafik
@@ -127,4 +133,4 @@ Dokumen ini menjelaskan rencana teknis untuk implementasi modul Super Admin pada
 
 ---
 
-Jika Anda setuju, saya dapat membantu membuatkan kode awal untuk modul-modul tersebut atau membantu langkah demi langkah sesuai prioritas.
+Jika Anda ingin, saya dapat membantu membuatkan kode awal untuk modul-modul tersebut atau membantu langkah demi langkah sesuai prioritas.

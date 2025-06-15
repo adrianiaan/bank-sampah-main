@@ -31,6 +31,7 @@ cp .env.example .env
 5. **Konfigurasi file `.env`**
 - Sesuaikan pengaturan database (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`) sesuai dengan database Anda.
 - Sesuaikan `APP_URL` jika perlu.
+- Pastikan konfigurasi mail jika ada fitur email.
 
 6. **Generate application key**
 ```bash
@@ -61,11 +62,22 @@ Gunakan akun admin default berikut untuk login:
 - Email: admin@banksampah.com
 - Password: password
 
+## Middleware dan Akses
+
+- Pastikan middleware `auth`, `super_admin`, `end_user`, dan `access_penjemputan` sudah terpasang dan berfungsi.
+- Middleware ini mengatur hak akses sesuai role pengguna.
+
+## Testing
+
+- Pastikan Anda sudah melakukan pengujian pada modul utama.
+- Jika ada perubahan, lakukan pengujian ulang.
+
 ## Catatan
 
 - Pastikan database sudah dibuat dan dapat diakses oleh aplikasi.
 - Jika ada perubahan pada asset frontend, jalankan kembali `npm run dev`.
 - Untuk produksi, gunakan `npm run build` untuk build asset.
+- Gunakan perintah `php artisan route:list` untuk melihat daftar route yang tersedia.
 
 ---
 

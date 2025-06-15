@@ -1,81 +1,150 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Bank Sampah Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Ringkasan Proyek
 
-## About Laravel
+Aplikasi Bank Sampah ini mengelola berbagai modul utama yang meliputi Jenis Sampah, Manajemen Pengguna, Jadwal Penjemputan, Transaksi, dan Manajemen Saldo termasuk Riwayat Penarikan Saldo. Aplikasi ini dibangun menggunakan Laravel Framework dengan fitur role-based access control dan integrasi DataTables untuk tampilan data yang interaktif.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
--   [Simple, fast routing engine](https://laravel.com/docs/routing).
--   [Powerful dependency injection container](https://laravel.com/docs/container).
--   Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
--   Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
--   Database agnostic [schema migrations](https://laravel.com/docs/migrations).
--   [Robust background job processing](https://laravel.com/docs/queues).
--   [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Struktur Database dan Migrasi
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Tabel Transaksi**  
+  Menyimpan data transaksi sampah dengan atribut seperti user_id, jenis_sampah_id, berat, nilai_saldo, status_verifikasi, dan catatan verifikasi.
 
-## Learning Laravel
+- **Tabel Saldo**  
+  Menyimpan saldo setiap pengguna dengan kolom user_id dan jumlah_saldo.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Tabel Riwayat Penarikan Saldo**  
+  Mencatat riwayat penarikan saldo dengan informasi saldo sebelum dan sesudah penarikan, jumlah penarikan, dan tanggal penarikan.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Tabel Penjemputan**  
+  Menyimpan jadwal penjemputan sampah dengan atribut jadwal, status, lokasi koordinat, dan alamat.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Penambahan Role pada Tabel Users**  
+  Menambahkan kolom role untuk mengatur hak akses pengguna (super_admin, kepala_dinas, end_user).
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Model
 
-### Premium Partners
+Model utama yang digunakan:
 
--   **[Vehikl](https://vehikl.com/)**
--   **[Tighten Co.](https://tighten.co)**
--   **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
--   **[64 Robots](https://64robots.com)**
--   **[Cubet Techno Labs](https://cubettech.com)**
--   **[Cyber-Duck](https://cyber-duck.co.uk)**
--   **[Many](https://www.many.co.uk)**
--   **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
--   **[DevSquad](https://devsquad.com)**
--   **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
--   **[OP.GG](https://op.gg)**
--   **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
--   **[Lendio](https://lendio.com)**
+- `Transaksi`  
+- `Saldo`  
+- `RiwayatPenarikanSaldo`  
+- `Penjemputan`  
+- `Jenis_sampah`  
+- `User`
 
-## Contributing
+Relasi antar model sudah diatur untuk mendukung operasi CRUD dan fitur aplikasi.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## DataTables
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Digunakan untuk menampilkan data secara interaktif pada halaman admin:
 
-## Security Vulnerabilities
+- **UserManagementDataTable**: Manajemen pengguna dengan aksi edit dan hapus.
+- **PenjemputanDataTable**: Jadwal penjemputan dengan opsi edit status.
+- **JenisSampahDataTable**: Data jenis sampah dengan thumbnail foto.
+- **TransaksiDataTable**: Data transaksi sampah.
+- **SaldoDataTable**: Data saldo pengguna dengan fitur penarikan saldo.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Controller
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Controller mengatur logika bisnis dan fitur utama:
 
-## Perintah Awal
+- `UserManagementController`  
+- `PenjemputanController`  
+- `JenisSampahController`  
+- `TransaksiController`  
+- `SaldoController`  
 
-php artisan migrate:fresh --seed
+Fitur tambahan seperti cetak PDF, autocomplete user, dan pengelolaan riwayat penarikan saldo juga diatur di sini.
 
-## Login
+---
 
-login admin :
-email: admin@banksampah.com
-password: password
+## Blade Views dan Modals
 
-##noted
-jika eror pada saat melakukan composer install itu maka aktifkan (;extension=gd) di php.ini
+- Halaman manajemen dan form input untuk setiap modul.
+- Modal edit dengan validasi dan interaksi AJAX.
+- Sidebar navigasi dengan menu utama sesuai modul.
 
-;extension=gd -> dirubah menjadi extension=gd
+---
+
+## Middleware dan Keamanan
+
+- `SuperAdminMiddleware`  
+- `EndUserMiddleware`  
+- `AccessPenjemputanMiddleware`  
+
+Middleware ini mengatur akses berdasarkan role pengguna untuk menjaga keamanan dan pembatasan fitur.
+
+---
+
+## Routing
+
+- Route resource dan route khusus dengan middleware yang sesuai.
+- Route untuk cetak PDF, autocomplete, dan API endpoint lainnya.
+- Grup route dengan prefix `admin` dan middleware `auth` serta role-based middleware.
+
+---
+
+## Riwayat Penarikan Saldo
+
+- Fitur pencatatan riwayat penarikan saldo lengkap dengan tampilan dan cetak PDF.
+- Proses penarikan saldo dilakukan melalui halaman manajemen saldo dengan modal khusus.
+
+---
+
+## Pengujian
+
+- Anda sudah melakukan pengujian pada modul-modul utama termasuk middleware dan routing.
+- Pengujian mencakup validasi akses, fungsi CRUD, dan fitur khusus seperti cetak PDF dan autocomplete.
+
+---
+
+## Dependensi dan Persyaratan
+
+### Persyaratan Sistem
+- PHP versi 8.2.12
+- Composer versi 2.7.7
+- Node.js versi 18.18.0
+- npm versi 9.8.1
+- Database MySQL versi 10.1.38 (dijalankan pada server XAMPP dengan Apache 2.4.38)
+- Web server Apache 2.4.38 pada XAMPP digunakan untuk backend Laravel
+- Vite digunakan sebagai build tool dan development server untuk asset frontend (CSS, JS)
+
+### Dependensi PHP (dari composer.json)
+- laravel/framework versi ^10.10
+- barryvdh/laravel-dompdf versi ^3.1 (untuk generate PDF)
+- consoletvs/charts versi ^6.6 (untuk grafik)
+- guzzlehttp/guzzle versi ^7.2 (HTTP client)
+- laravel/sanctum versi ^3.2 (autentikasi API)
+- laravel/tinker versi ^2.8 (REPL Laravel)
+- maatwebsite/excel versi ^3.1 (export/import Excel)
+- yajra/laravel-datatables versi 10.0 (DataTables server-side)
+- yajra/laravel-datatables-buttons versi ^10.0 (tombol export DataTables)
+
+### Dependensi Dev (untuk pengembangan dan testing)
+- fakerphp/faker versi ^1.9.1 (data dummy)
+- laravel/breeze versi ^1.24 (scaffolding auth)
+- laravel/pint versi ^1.0 (code style)
+- laravel/sail versi ^1.18 (Docker environment)
+- mockery/mockery versi ^1.4.4 (mocking untuk testing)
+- nunomaduro/collision versi ^7.0 (error handling)
+- phpunit/phpunit versi ^10.1 (unit testing)
+- spatie/laravel-ignition versi ^2.0 (debugging)
+
+### Dependensi Frontend (dari package.json)
+- alpinejs versi ^3.4.2 (JavaScript framework ringan)
+- axios versi ^1.1.2 (HTTP client)
+- laravel-vite-plugin versi ^0.8.0 (integrasi Vite dengan Laravel)
+- postcss versi ^8.4.6 (CSS processing)
+- tailwindcss versi ^3.1.0 (utility-first CSS framework)
+- vite versi ^4.0.0 (build tool)
+- @tailwindcss/forms versi ^0.5.2 (plugin Tailwind untuk form)
+
+---
