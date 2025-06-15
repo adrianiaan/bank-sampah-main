@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SaldoController; // Add SaldoController
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,15 @@ Route::get('/', function () {
 // User Management Routes
 Route::middleware(['auth', 'super_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('users', UserManagementController::class)->except(['show']);
+});
+
+// Tambahkan route manajemen saldo untuk super_admin dan kepala_dinas
+Route::middleware(['auth', 'super_admin'])->group(function () {
+    Route::get('/admin/saldo', [SaldoController::class, 'index'])->name('admin.saldo.index');
+    Route::get('/admin/saldo/{user_id}', [SaldoController::class, 'showUserSaldoAdmin'])->name('admin.saldo.show');
+    Route::post('/admin/saldo/{user_id}/withdraw', [SaldoController::class, 'withdraw'])->name('admin.saldo.withdraw');
+    Route::get('/admin/saldo/riwayat-penarikan/{riwayat_id}/pdf', [SaldoController::class, 'printRiwayatPenarikanPdf'])->name('admin.saldo.riwayat.penarikan.pdf');
+    Route::delete('/admin/saldo/{saldo_id}', [SaldoController::class, 'destroy'])->name('admin.saldo.destroy');
 });
 
 Route::get('/home', [FrontendController::class, 'index'])->name('frontend');
@@ -64,5 +74,8 @@ Route::middleware(['auth', 'access_penjemputan'])->group(function () {
 
 Route::get('/user/autocomplete', [TransaksiController::class, 'autocomplete'])->name('user.autocomplete');
 Route::resource('transaksi', TransaksiController::class);
+
+// Saldo Routes
+Route::get('/user/saldo', [SaldoController::class, 'showUserSaldo'])->name('user.saldo');
 
 require __DIR__ . '/auth.php';

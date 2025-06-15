@@ -52,6 +52,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Relationship to Saldo
+     */
+    public function saldo()
+    {
+        return $this->hasOne(Saldo::class);
+    }
+
+    /**
      * Check if user has kepala dinas role
      */
     public function isKepalaDinas()

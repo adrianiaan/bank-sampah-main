@@ -25,8 +25,7 @@ class PenjemputanDataTable extends DataTable
                 if ($user->role === 'super_admin' || $user->role === 'end_user') {
                     $editUrl = route('penjemputan.edit', $row->id);
                     $deleteUrl = route('penjemputan.destroy', $row->id);
-                    $jadwalFormatted = date('Y-m-d\TH:i', strtotime($row->jadwal));
-                    $buttons = '<button type="button" class="btn btn-sm btn-primary me-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="'.$row->id.'" data-jadwal="'.$jadwalFormatted.'" data-status="'.$row->status.'" data-lokasi="'.$row->lokasi_koordinat.'" data-alamat="'.htmlspecialchars($row->alamat).'">Edit</button>';
+                    $buttons = '<a href="'.$editUrl.'" class="btn btn-sm btn-primary me-1">Edit</a>';
                     if ($user->role === 'super_admin') {
                         $buttons .= '<form action="'.$deleteUrl.'" method="POST" style="display:inline-block;" onsubmit="return confirm(\'Yakin ingin menghapus data ini?\');">';
                         $buttons .= csrf_field();
@@ -113,35 +112,35 @@ class PenjemputanDataTable extends DataTable
         $user = \Illuminate\Support\Facades\Auth::user();
         $columns = [];
 
-        if ($user && $user->role === 'super_admin') {
-            $columns = [
-                'id',
-                ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
-                'jadwal',
-                'status',
-                //'lokasi_koordinat',
-                'alamat',
-            ];
-            $columns[] = ['data' => 'action', 'name' => 'action', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false];
-        } elseif ($user && $user->role === 'end_user') {
-            $columns = [
-                ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
-                'jadwal',
-                'status',
-                //'lokasi_koordinat',
-                'alamat',
-                ['data' => 'action', 'name' => 'action', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false],
-            ];
-        } else {
-            $columns = [
-                'id',
-                ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
-                'jadwal',
-                'status',
-                //'lokasi_koordinat',
-                'alamat',
-            ];
-        }
+            if ($user && $user->role === 'super_admin') {
+                $columns = [
+                    ['data' => 'id', 'visible' => false],
+                    ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
+                    'jadwal',
+                    'status',
+                    //'lokasi_koordinat',
+                    'alamat',
+                ];
+                $columns[] = ['data' => 'action', 'name' => 'action', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false];
+            } elseif ($user && $user->role === 'end_user') {
+                $columns = [
+                    ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
+                    'jadwal',
+                    'status',
+                    //'lokasi_koordinat',
+                    'alamat',
+                    ['data' => 'action', 'name' => 'action', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false],
+                ];
+            } else {
+                $columns = [
+                    ['data' => 'id', 'visible' => false],
+                    ['data' => 'user.name', 'name' => 'user.name', 'title' => 'Pengguna'],
+                    'jadwal',
+                    'status',
+                    //'lokasi_koordinat',
+                    'alamat',
+                ];
+            }
 
         return $columns;
     }
