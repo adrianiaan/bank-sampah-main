@@ -12,7 +12,7 @@
                         @method('PUT')
 
                         <div class="mb-3">
-                            <label for="name" class="form-label">Nama</label>
+                            <label for="name" class="form-label">Nama Pengguna</label>
                             <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" required class="form-control">
                         </div>
 

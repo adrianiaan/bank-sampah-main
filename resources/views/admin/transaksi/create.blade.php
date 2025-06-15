@@ -11,12 +11,12 @@
                         @csrf
                         @if(Auth::user()->role == 'end_user')
                             <div class="mb-3">
-                                <label for="user_name" class="form-label">User</label>
+                                <label for="user_name" class="form-label">Nama Pengguna</label>
                                 <input type="text" class="form-control" id="user_name" name="user_name" value="{{ Auth::user()->name }}" readonly>
                             </div>
                         @else
                             <div class="mb-3">
-                                <label for="user_name" class="form-label">User</label>
+                                <label for="user_name" class="form-label">Nama Pengguna</label>
                                 <input type="text" class="form-control" id="user_name" name="user_name" required>
                             </div>
                         @endif
@@ -30,7 +30,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="berat_kg" class="form-label">Berat (Kg)</label>
+                            <label for="berat_kg" class="form-label">Berat Sampah (Kg)</label>
                             <input type="number" class="form-control" id="berat_kg" name="berat_kg" step="0.01" required>
                         </div>
                         <div class="mb-3">

@@ -19,7 +19,7 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
+                            <label for="name" class="form-label">Nama Pengguna</label>
                             <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $jenis_sampah->name) }}" required autofocus>
                             @error('name')
                                 <span class="text-danger">{{ $message }}</span>

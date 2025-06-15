@@ -18,8 +18,8 @@
                     <form action="{{ route('admin.users.store') }}" method="post" id="form-user-management">
                         @csrf
                         <div class="form-floating form-floating-outline mb-3">
-                            <input class="form-control" id="name" type="text" name="name" placeholder="Name" autofocus />
-                            <label for="name">Name</label>
+                            <input class="form-control" id="name" type="text" name="name" placeholder="Nama Pengguna" autofocus />
+                            <label for="name">Nama Pengguna</label>
                             <span class="text-danger name_error"></span>
                         </div>
 

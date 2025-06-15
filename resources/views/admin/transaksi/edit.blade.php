@@ -12,7 +12,7 @@
                         @method('PUT')
                         <input type="hidden" name="user_id" id="user_id" value="{{ $transaksi->user_id }}">
                         <div class="mb-3">
-                            <label for="user_name" class="form-label">User</label>
+                            <label for="user_name" class="form-label">Nama Pengguna</label>
                             <input type="text" class="form-control" id="user_name" name="user_name" value="{{ $transaksi->user->name }}" required>
                         </div>
                         <div class="mb-3">
@@ -25,7 +25,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="berat_kg" class="form-label">Berat (Kg)</label>
+                            <label for="berat_kg" class="form-label">Berat Sampah (Kg)</label>
                             <input type="number" class="form-control" id="berat_kg" name="berat_kg" step="0.01" value="{{ $transaksi->berat_kg }}" required>
                         </div>
                         <div class="mb-3">

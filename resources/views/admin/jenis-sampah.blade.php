@@ -19,9 +19,9 @@
                     <form action="{{ route('jenis_sampah.store') }}" method="post" id="form-jenis-sampah" class="h-100 d-flex flex-column">
                         @csrf
                         <div class="form-floating form-floating-outline mb-3">
-                            <input class="form-control" id="name" type="text" name="name" placeholder="Name"
+                            <input class="form-control" id="name" type="text" name="name" placeholder="Nama Pengguna"
                                 autofocus />
-                            <label for="name">Name</label>
+                            <label for="name">Nama Pengguna</label>
                             <span class="text-danger name_error"></span>
                         </div>
 
