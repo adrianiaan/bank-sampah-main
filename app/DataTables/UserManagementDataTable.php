@@ -66,6 +66,13 @@ class UserManagementDataTable extends DataTable
             ->buttons(
                 'excel',
                 'csv',
+                [
+                    'text' => 'PDF',
+                    'action' => 'function ( e, dt, node, config ) {
+                        window.open("'.route('admin.users.cetak.pdf').'", "_blank");
+                    }',
+                    'className' => "btn btn-secondary",
+                ],
                 'reload'
             );
     }

@@ -7,11 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use App\DataTables\UserManagementDataTable;
+use PDF;
 
 class UserManagementController extends Controller
 {
-    
-
     /**
      * Display a listing of the users.
      */
@@ -90,5 +89,20 @@ class UserManagementController extends Controller
     {
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+    }
+
+    /**
+     * Generate PDF of user list.
+     */
+    public function cetakPDF()
+    {
+        $user = auth()->user();
+        if (!in_array($user->role, ['super_admin', 'kepala_dinas'])) {
+            abort(403, 'Unauthorized action.');
+        }
+        $users = User::all();
+        $pdf = PDF::loadView('admin.users.users_pdf', compact('users'));
+        $filename = 'users_' . date('Ymd_His') . '.pdf';
+        return $pdf->download($filename);
     }
 }

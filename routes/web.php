@@ -31,6 +31,7 @@ Route::get('/', function () {
 // User Management Routes
 Route::middleware(['auth', 'super_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('users', UserManagementController::class)->except(['show']);
+    Route::get('users/cetak/pdf', [UserManagementController::class, 'cetakPDF'])->name('users.cetak.pdf');
 });
 
 // Tambahkan route manajemen saldo untuk super_admin dan kepala_dinas
