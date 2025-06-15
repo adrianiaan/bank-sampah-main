@@ -47,6 +47,7 @@ Route::middleware(['auth', 'super_admin'])->group(function () {
     Route::post('/admin/saldo/{user_id}/withdraw', [SaldoController::class, 'withdraw'])->name('admin.saldo.withdraw');
     Route::get('/admin/saldo/riwayat-penarikan/{riwayat_id}/pdf', [SaldoController::class, 'printRiwayatPenarikanPdf'])->name('admin.saldo.riwayat.penarikan.pdf');
     Route::delete('/admin/saldo/{saldo_id}', [SaldoController::class, 'destroy'])->name('admin.saldo.destroy');
+    Route::get('/admin/manajemen-saldo/cetak/pdf', [SaldoController::class, 'cetakManajemenPDF'])->name('admin.manajemen.saldo.cetak.pdf');
 });
 
 Route::get('/home', [FrontendController::class, 'index'])->name('frontend');

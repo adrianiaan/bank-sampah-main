@@ -45,17 +45,37 @@ class SaldoDataTable extends DataTable
      */
     public function html()
     {
-        return $this->builder()
+        $currentUser = auth()->user();
+
+        $builder = $this->builder()
                     ->setTableId('saldo-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->buttons(
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('reload')
-                    );
+                    ->orderBy(1);
+
+        if (in_array($currentUser->role, ['super_admin', 'kepala_dinas'])) {
+            $builder = $builder->buttons(
+                Button::make('excel'),
+                Button::make('csv'),
+                [
+                    'text' => 'PDF',
+                    'action' => 'function ( e, dt, node, config ) {
+                        window.open("'.route('admin.manajemen.saldo.cetak.pdf').'", "_blank");
+                    }',
+                    'className' => "btn btn-secondary",
+                ],
+                Button::make('reload')
+            );
+        } else {
+            $builder = $builder->buttons(
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('reload')
+            );
+        }
+
+        return $builder;
     }
 
     /**

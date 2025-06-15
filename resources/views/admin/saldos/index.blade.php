@@ -32,6 +32,7 @@
             <div class="card flex-grow-1 d-flex flex-column" style="min-height: 600px;">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h5 class="h5">Data Saldo</h5>
+                    <a href="{{ route('admin.manajemen.saldo.cetak.pdf') }}" target="_blank" class="btn btn-primary btn-sm">Cetak PDF</a>
                 </div>
                  <div class="card-body flex-grow-1 overflow-auto">
                     {{ $dataTable->table(['class' => 'table table-striped table-bordered'], true) }}

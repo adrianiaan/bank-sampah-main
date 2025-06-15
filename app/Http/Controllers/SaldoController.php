@@ -117,4 +117,21 @@ class SaldoController extends Controller
         // Redirect kembali ke halaman manajemen saldo tanpa menampilkan halaman kosong
         return redirect()->route('admin.saldo.index')->with('success', 'Saldo berhasil dihapus.');
     }
+
+    /**
+     * Generate PDF for saldo management list.
+     */
+    public function cetakManajemenPDF()
+    {
+        $user = auth()->user();
+        if (!in_array($user->role, ['super_admin', 'kepala_dinas'])) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $saldo = Saldo::with('user')->get();
+
+        $pdf = \PDF::loadView('admin.saldos.manajemen_saldo_pdf', compact('saldo'));
+        $filename = 'manajemen_saldo_' . date('Ymd_His') . '.pdf';
+        return $pdf->download($filename);
+    }
 }
