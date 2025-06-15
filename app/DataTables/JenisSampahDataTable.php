@@ -81,7 +81,7 @@ class JenisSampahDataTable extends DataTable
         $currentUser = auth()->user();
 
         $columns = [
-            Column::make('id')->visible(false),
+            Column::make('id')->visible(false)->exportable(false)->printable(false),
             Column::make('name'),
             Column::make('kategori'),
             Column::make('deskripsi'),
