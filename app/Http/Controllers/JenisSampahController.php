@@ -7,6 +7,7 @@ use App\Models\Jenis_sampah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use PDF;
 
 class JenisSampahController extends Controller
 {
@@ -127,5 +128,20 @@ class JenisSampahController extends Controller
     {
         Jenis_sampah::where('id', '=', $id)->delete();
         return redirect()->route('jenis_sampah.index')->with('success', 'Data berhasil dihapus!');
+    }
+
+    /**
+     * Generate PDF of jenis sampah list.
+     */
+    public function cetakPDF()
+    {
+        $user = auth()->user();
+        if (!in_array($user->role, ['super_admin', 'kepala_dinas'])) {
+            abort(403, 'Unauthorized action.');
+        }
+        $jenis_sampah = Jenis_sampah::all();
+        $pdf = PDF::loadView('admin.jenis-sampah.jenis_sampah_pdf', compact('jenis_sampah'));
+        $filename = 'jenis_sampah_' . date('Ymd_His') . '.pdf';
+        return $pdf->download($filename);
     }
 }

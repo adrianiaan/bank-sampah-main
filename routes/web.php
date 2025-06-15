@@ -5,6 +5,7 @@ use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\JenisSampahController;
 
 Route::resource('jenis_sampah', JenisSampahController::class);
+Route::get('/jenis_sampah/cetak/pdf', [App\Http\Controllers\JenisSampahController::class, 'cetakPDF'])->name('jenis_sampah.cetak.pdf');
 use App\Http\Controllers\PenjemputanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RiwayatController;

@@ -61,11 +61,22 @@ class JenisSampahDataTable extends DataTable
             ->orderBy(1)
             ->selectStyleSingle();
 
-        if (in_array($currentUser->role, ['super_admin', 'kepala_dinas'])) {
+if (in_array($currentUser->role, ['super_admin', 'kepala_dinas'])) {
             $builder = $builder->scrollX(true)
                 ->parameters([
                     'dom'          => 'Bfrtip',
-                    'buttons'      => ['excel', 'csv', 'reload'],
+                    'buttons'      => [
+                        'excel',
+                        'csv',
+                        [
+                            'text' => 'PDF',
+                            'action' => 'function ( e, dt, node, config ) {
+                                window.open("'.route('jenis_sampah.cetak.pdf').'", "_blank");
+                            }',
+                            'className' => "btn btn-secondary",
+                        ],
+                        'reload',
+                    ],
                     'scrollY'     => '', // remove vertical scroll to allow table to expand
                 ]);
         }

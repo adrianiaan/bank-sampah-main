@@ -3,6 +3,7 @@
 @push('style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/flatpickr/flatpickr.css') }}" />
+
 @endpush
 
 @section('content')
@@ -66,13 +67,12 @@
         @endif
         <div class="@if(auth()->user()->role === 'super_admin') col-8 @else col-12 @endif d-flex flex-column">
             <div class="card flex-grow-1 d-flex flex-column" style="min-height: 600px;">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="h5">Data {{ $title }}</h5>
-                    {{-- Tambah tombol tambah jika diperlukan --}}
-                </div>
-                <div class="card-body flex-grow-1 overflow-auto">
-                    {{ $dataTable->table(['class' => 'table table-striped table-bordered'], true) }}
-                </div>
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="h5">Data {{ $title }}</h5> 
+        </div>
+        <div class="card-body flex-grow-1 overflow-auto">
+            {{ $dataTable->table(['class' => 'table table-striped table-bordered'], true) }}
+        </div>
             </div>
         </div>
     </div>
