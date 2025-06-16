@@ -2,7 +2,7 @@
 
 ## Ringkasan Proyek
 
-Aplikasi Bank Sampah ini mengelola berbagai modul utama yang meliputi Jenis Sampah, Manajemen Pengguna, Jadwal Penjemputan, Transaksi, dan Manajemen Saldo termasuk Riwayat Penarikan Saldo. Aplikasi ini dibangun menggunakan Laravel Framework dengan fitur role-based access control dan integrasi DataTables untuk tampilan data yang interaktif.
+Aplikasi RecyclePay.id ini mengelola berbagai modul utama yang meliputi Jenis Sampah, Manajemen Pengguna, Jadwal Penjemputan, Transaksi, dan Manajemen Saldo termasuk Riwayat Penarikan Saldo. Aplikasi ini dibangun menggunakan Laravel Framework dengan fitur role-based access control dan integrasi DataTables untuk tampilan data yang interaktif.
 
 ---
 

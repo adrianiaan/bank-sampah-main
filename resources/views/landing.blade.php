@@ -68,66 +68,76 @@
 </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <h1>Ubah <span class="highlight-green">Sampahmu</span> Jadi <span class="highlight-blue">Koin Digital</span></h1>
-        <p>ECOCOIN memungkinkan kamu menukar sampah menjadi koin digital yang bisa digunakan untuk berbagai hadiah dan layanan eksklusif. Mari bersama-sama menjaga lingkungan sambil mendapatkan reward!</p>
-        <button class="btn-primary" onclick="window.location.href='{{ route('register') }}'">Mulai Sekarang</button>
+    <section class="hero" style="padding: 3rem 2rem; background-color: #c6e2c6; text-align: center;">
+        <h1>
+            <span class="highlight-green">Mulai Jaga Bumi</span><br/>
+            <span class="highlight-black">Jadwalkan Penjemputan Sampah </span><span class="highlight-blue">& Dapatkan Saldo</span>
+        </h1>
+        <p>
+            Jaga Lingkungan, Tukar Sampah Jadi Saldo yang Bisa Dicairkan dan Nikmati Hadiah!
+        </p>
+        <button class="btn-primary" style="padding: 0.75rem 1.5rem; font-weight: 700;" onclick="window.location.href='{{ route('register') }}'">Mulai Sekarang</button>
     </section>
 
     <!-- Features Section -->
     <section class="features">
         <div class="feature-card">
             <i class="mdi mdi-recycle"></i>
-            <h3>Pengelolaan Sampah Bertanggung Jawab</h3>
-            <p>Dapatkan reward atas kontribusi kamu untuk lingkungan dengan mengelola sampah secara bertanggung jawab.</p>
+            <h3>Manajemen Jenis Sampah</h3>
+            <p>Mengelola berbagai jenis sampah dengan mudah dan efisien untuk mendukung proses daur ulang.</p>
         </div>
         <div class="feature-card">
-            <i class="mdi mdi-gift"></i>
-            <h3>Mudah Mendapatkan Hadiah</h3>
-            <p>Tukarkan sampah yang kamu kelola menjadi koin digital untuk berbagai produk dan layanan menarik.</p>
+            <i class="mdi mdi-account-multiple"></i>
+            <h3>Manajemen Pengguna</h3>
+            <p>Memudahkan pengelolaan pengguna dengan fitur role-based access control dan interaksi yang aman.</p>
         </div>
         <div class="feature-card">
-            <i class="mdi mdi-account-group"></i>
-            <h3>Dampak untuk Komunitas</h3>
-            <p>Menghubungkan masyarakat, bank sampah, dan pemerintah daerah dalam satu ekosistem yang saling menguntungkan.</p>
+            <i class="mdi mdi-calendar-clock"></i>
+            <h3>Jadwal Penjemputan</h3>
+            <p>Atur dan pantau jadwal penjemputan sampah secara real-time untuk kenyamanan pengguna.</p>
         </div>
     </section>
 
     <!-- How It Works Section -->
     <section class="how-it-works">
-        <h2>Cara Kerja ECOCOIN</h2>
+        <h2>Cara Kerja RecyclePay</h2>
         <div class="steps">
             <div class="step">
                 <div class="icon mdi mdi-account-plus"></div>
                 <h4>Registrasi</h4>
-                <p>Daftarkan diri kamu di platform ECOCOIN</p>
+                <p>Melakukan Registrasi jika belum memiliki akun</p>
             </div>
             <div class="step">
                 <div class="icon mdi mdi-calendar-clock"></div>
                 <h4>Jadwalkan Penjemputan</h4>
-                <p>Atur jadwal penjemputan sampah sesuai keinginan</p>
+                <p>Melakukan penjadwalan penjemputan sampah</p>
             </div>
             <div class="step">
-                <div class="icon mdi mdi-currency-usd"></div>
-                <h4>Dapatkan Koin</h4>
-                <p>Tukarkan sampahmu menjadi koin digital</p>
+                <div class="icon mdi mdi-file-document"></div>
+                <h4>Isi Form Transaksi</h4>
+                <p>Melakukan pengisian form transaksi sampah</p>
             </div>
             <div class="step">
-                <div class="icon mdi mdi-gift"></div>
-                <h4>Tukar Hadiah</h4>
-                <p>Gunakan koin untuk mendapatkan hadiah menarik</p>
+                <div class="icon mdi mdi-check-decagram"></div>
+                <h4>Verifikasi Admin</h4>
+                <p>Admin memverifikasi sampah yang dijemput sesuai form transaksi</p>
+            </div>
+            <div class="step">
+                <div class="icon mdi mdi-cash-multiple"></div>
+                <h4>Saldo Diterima</h4>
+                <p>Masyarakat menerima saldo langsung di akun mereka</p>
             </div>
         </div>
     </section>
 
     <!-- Roles Section -->
     <section class="roles">
-        <h2>Peran dalam ECOCOIN</h2>
+        <h2>Peran dalam RecyclePay</h2>
         <div class="role-cards">
             <div class="role-card">
                 <div class="icon mdi mdi-account-tie"></div>
                 <h4>Super Admin</h4>
-                <p>Mengelola seluruh sistem, termasuk pengguna, bank sampah, dan memastikan ekosistem berjalan dengan baik.</p>
+                <p>Mengelola seluruh sistem, termasuk pengguna, RecyclePay, dan memastikan ekosistem berjalan dengan baik.</p>
             </div>
             <div class="role-card">
                 <div class="icon mdi mdi-domain"></div>
@@ -137,7 +147,7 @@
             <div class="role-card">
                 <div class="icon mdi mdi-account-multiple"></div>
                 <h4>End User</h4>
-                <p>Masyarakat yang dapat mendaftar, meminta penjemputan sampah, dan menukar koin menjadi hadiah di dalam aplikasi.</p>
+                <p>Masyarakat yang dapat mendaftar, meminta penjemputan sampah, dan menukar sampah menjadi saldo di dalam aplikasi.</p>
             </div>
         </div>
     </section>
@@ -145,13 +155,13 @@
     <!-- Final Call to Action -->
     <section class="final-cta">
         <h2>Siap Mengubah Sampahmu Jadi Berkah?</h2>
-        <p>Bergabunglah dengan ECOCOIN dan lihat bagaimana aplikasi ini bisa membuat sampahmu bernilai!</p>
-        <button class="btn-primary" onclick="window.location.href='{{ route('register') }}'">Mulai Perjalanan Eco-mu</button>
+        <p>Bergabunglah dengan RecyclePay dan lihat bagaimana aplikasi ini bisa membuat sampahmu bernilai!</p>
+        <button class="btn-primary" onclick="window.location.href='{{ route('register') }}'">Mulai Perjalanan RecyclePay-mu</button>
     </section>
 
     <!-- Footer -->
 <footer class="footer">
-    <p>© 2024 {{ env('app_name') }}. Mengubah sampah menjadi berkah untuk masa depan yang lebih hijau.</p>
+    <p>© 2024 {{ env('app_name') }} Mengubah sampah menjadi berkah untuk masa depan yang lebih hijau.</p>
 </footer>
 </body>
 

@@ -1,6 +1,6 @@
 # Panduan Menjalankan Proyek Bank Sampah
 
-Berikut adalah langkah-langkah untuk menjalankan proyek Bank Sampah berbasis Laravel ini di komputer Anda.
+Berikut adalah langkah-langkah untuk menjalankan proyek RecyclePay.id berbasis Laravel ini di komputer Anda.
 
 ## Persyaratan
 - PHP >= 8.0

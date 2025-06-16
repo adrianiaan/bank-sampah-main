@@ -37,7 +37,7 @@ nav.navbar .logo {
     height: 72px !important; /* Increased logo size for better visibility */
     width: auto !important;
     margin-right: 10px;
-    transform: scale(4);
+    transform: scale(2);
 }
 nav.navbar .nav-links {
     display: flex;
@@ -328,3 +328,9 @@ nav.navbar .logo img {
 .mdi {
     font-size: 4rem;
 }
+
+/* Custom highlight-black class */
+.highlight-black {
+    color: #000 !important;
+}
+

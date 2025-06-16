@@ -69,7 +69,7 @@
                     <!-- /Logo -->
 
                     <div class="card-body mt-2">
-                        <p class="mb-4">Silakan masuk ke akun Anda dan mulai kontribusi Anda dalam pengelolaan sampah.</p>
+                        <p class="mb-4">Silakan masuk ke akun Anda dan mulai kontribusi Anda dalam Menjaga Bumi.</p>
                         <form id="formAuthentication" class="mb-3" action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="form-floating form-floating-outline mb-3">
