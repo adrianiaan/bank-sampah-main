@@ -85,7 +85,7 @@
                                             <input type="password" id="password" class="form-control" name="password"
                                                 placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                                 aria-describedby="password" />
-                                            <label for="password">Silahkan masukan kata sandi</label>
+                                            <label for="password">Silahkan masukan password</label>
                                         </div>
                                         <span class="input-group-text cursor-pointer"><i
                                                 class="mdi mdi-eye-off-outline"></i></span>
