@@ -19,9 +19,9 @@
                     <form action="{{ route('jenis_sampah.store') }}" method="post" id="form-jenis-sampah" class="h-100 d-flex flex-column">
                         @csrf
                         <div class="form-floating form-floating-outline mb-3">
-                            <input class="form-control" id="name" type="text" name="name" placeholder="Nama Pengguna"
+                            <input class="form-control" id="name" type="text" name="name" placeholder="Nama Sampah"
                                 autofocus />
-                            <label for="name">Nama Pengguna</label>
+                            <label for="name">Nama Sampah</label>
                             <span class="text-danger name_error"></span>
                         </div>
 
@@ -32,7 +32,7 @@
                                 <option value="Anorganik">Anorganik</option>
                                 <option value="Bahan Berbahaya">Bahan Berbahaya</option>
                             </select>
-                            <label for="kategori">Kategori</label>
+                            <label for="kategori">Kategori Sampah</label>
                             <span class="text-danger kategori_error"></span>
                         </div>
                         <div class="mb-3">
@@ -54,7 +54,7 @@
                         <div class="form-floating form-floating-outline mb-3">
                             <input class="form-control" id="foto" type="file" name="foto" placeholder="foto"
                                 autofocus />
-                            <label for="foto">foto</label>
+                            <label for="foto">Foto Sampah</label>
                         </div>
                         <span class="text-danger foto_error"></span>
                         <div class="float-end">

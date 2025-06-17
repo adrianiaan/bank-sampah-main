@@ -93,11 +93,11 @@ if (in_array($currentUser->role, ['super_admin', 'kepala_dinas'])) {
 
         $columns = [
             Column::make('id')->visible(false)->exportable(false)->printable(false),
-            Column::make('name')->title('Nama Pengguna'),
-            Column::make('kategori'),
+            Column::make('name')->title('Nama Sampah'),
+            Column::make('kategori')->title('Kategori Sampah'),
             Column::make('deskripsi'),
             Column::make('foto'),
-            Column::make('harga')->title('Harga Per Kg')->width(100),
+            Column::make('harga')->title('Harga / Kg')->width(100),
         ];
 
         if ($currentUser->role === 'super_admin') {

@@ -19,14 +19,14 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
-                            <label for="name" class="form-label">Nama Pengguna</label>
+                            <label for="name" class="form-label">Nama Sampah</label>
                             <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $jenis_sampah->name) }}" required autofocus>
                             @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="kategori" class="form-label">Kategori</label>
+                            <label for="kategori" class="form-label">Kategori Sampah</label>
                             <select name="kategori" id="kategori" class="form-select" required>
                                 <option value="">--pilih--</option>
                                 <option value="Organik" {{ old('kategori', $jenis_sampah->kategori) == 'Organik' ? 'selected' : '' }}>Organik</option>
