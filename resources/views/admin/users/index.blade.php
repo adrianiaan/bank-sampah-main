@@ -18,23 +18,35 @@
                     <form action="{{ route('admin.users.store') }}" method="post" id="form-user-management">
                         @csrf
                         <div class="form-floating form-floating-outline mb-3">
-                            <input class="form-control" id="name" type="text" name="name" placeholder="Nama Pengguna" autofocus />
+                            <input class="form-control" id="name" type="text" name="name" placeholder="Nama Pengguna" autofocus required />
                             <label for="name">Nama Pengguna</label>
                             <span class="text-danger name_error"></span>
                         </div>
 
                         <div class="form-floating form-floating-outline mb-3">
-                            <input class="form-control" id="email" type="email" name="email" placeholder="Email" />
+                            <input class="form-control" id="email" type="email" name="email" placeholder="Email" required />
                             <label for="email">Email</label>
                             <span class="text-danger email_error"></span>
                         </div>
 
                         <div class="form-floating form-floating-outline mb-3">
-                            <select name="role" id="role" class="form-control">
+                            <input class="form-control" id="password" type="password" name="password" placeholder="Password" required />
+                            <label for="password">Password</label>
+                            <span class="text-danger password_error"></span>
+                        </div>
+
+                        <div class="form-floating form-floating-outline mb-3">
+                            <input class="form-control" id="password_confirmation" type="password" name="password_confirmation" placeholder="Konfirmasi Password" required />
+                            <label for="password_confirmation">Konfirmasi Password</label>
+                            <span class="text-danger password_confirmation_error"></span>
+                        </div>
+
+                        <div class="form-floating form-floating-outline mb-3">
+                            <select name="role" id="role" class="form-control" required>
                                 <option value="">--pilih--</option>
                                 <option value="super_admin">Super Admin</option>
-                                <option value="admin">Admin</option>
-                                <option value="user">User</option>
+                                <option value="kepala_dinas">Kepala Dinas</option>
+                                <option value="end_user">End User</option>
                             </select>
                             <label for="role">Role</label>
                             <span class="text-danger role_error"></span>
@@ -67,11 +79,10 @@
     @include('admin.modals.user-management-edit')
 @endsection
 
-@push('script')
-    <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
-    <script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
-    <script src="{{ asset('/vendor/datatables/buttons.server-side.js') }}"></script>
-    {{ $dataTable->scripts() }}
-
-    <script src="{{ asset('js/user-management.js') }}"></script>
-@endpush
+    @push('script')
+        <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
+        <script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
+        <script src="{{ asset('/vendor/datatables/buttons.server-side.js') }}"></script>
+        {{ $dataTable->scripts() }}
+        <script src="{{ asset('js/user-management.js') }}"></script>
+    @endpush
